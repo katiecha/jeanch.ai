@@ -3,6 +3,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
+import { Bloom, ChromaticAberration, EffectComposer, Vignette } from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
+import { Vector2 } from "three";
 import { useRouter } from "next/navigation";
 import { Ocean } from "./Ocean";
 import { Sailboat } from "./Sailboat";
@@ -62,6 +65,7 @@ export function SailboatScene() {
   return (
     <div className="w-full h-full relative">
       <Canvas camera={{ position: [0, 7.5, 26], fov: 62 }} gl={{ antialias: true }}>
+        <fogExp2 attach="fog" args={["#c8e8f0", 0.008]} />
         <ambientLight intensity={2.0} />
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
         <Sky sunPosition={[80, 60, -40]} turbidity={2} rayleigh={2} mieCoefficient={0.003} mieDirectionalG={0.8} />
@@ -80,6 +84,15 @@ export function SailboatScene() {
         ))}
         {/* Decorative marsh — two low mudflat patches with swaying grass */}
         <MarshIsland position={[-40, 0, 5]} />
+        <EffectComposer multisampling={4}>
+          <Bloom luminanceThreshold={0.65} luminanceSmoothing={0.45} intensity={0.45} />
+          <Vignette eskil={false} offset={0.18} darkness={0.45} />
+          <ChromaticAberration
+            blendFunction={BlendFunction.NORMAL}
+            offset={new Vector2(0.00045, 0.0003)}
+            opacity={0.12}
+          />
+        </EffectComposer>
       </Canvas>
 
       {/* Father's Day completion modal */}

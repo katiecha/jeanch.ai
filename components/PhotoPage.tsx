@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { isMapFound } from "@/lib/discovery";
 
 interface PhotoPageProps {
   title: string;
@@ -21,15 +20,12 @@ const ROTATIONS = [
 
 export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
   const [visible, setVisible] = useState(!fadeIn);
-  const [mapUnlocked, setMapUnlocked] = useState(false);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
-    const mapTimer = window.setTimeout(() => setMapUnlocked(isMapFound()), 0);
     const fadeTimer = fadeIn ? window.setTimeout(() => setVisible(true), 200) : undefined;
 
     return () => {
-      window.clearTimeout(mapTimer);
       if (fadeTimer) window.clearTimeout(fadeTimer);
     };
   }, [fadeIn]);
@@ -51,14 +47,12 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
         >
           ←
         </Link>
-        {mapUnlocked && (
-          <Link
-            href="/"
-            className="text-[#00356b]/40 hover:text-[#00356b] text-xs font-mono tracking-widest transition-colors"
-          >
-            ○
-          </Link>
-        )}
+        <Link
+          href="/"
+          className="text-[#00356b]/40 hover:text-[#00356b] text-xs font-mono tracking-widest transition-colors"
+        >
+          ○
+        </Link>
       </nav>
 
       <div

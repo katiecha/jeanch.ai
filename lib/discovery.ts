@@ -42,7 +42,14 @@ export function isNodeUnlocked(nodeId: string, requires?: string[]): boolean {
   return requires.every((req) => visited.includes(req));
 }
 
-const ALL_GAME_ISLANDS = ["ferry-dock", "old-baldy", "old-boat-house", "shoals-club", "commons-tower"];
+const ALL_GAME_ISLANDS = [
+  "ferry-dock",
+  "old-baldy",
+  "old-boat-house",
+  "bald-head-island-club",
+  "shoals-club",
+  "commons-tower",
+];
 const COMPLETION_SHOWN_KEY = "completion-shown";
 
 export function hasCompletedAll(): boolean {

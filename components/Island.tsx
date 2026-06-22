@@ -333,6 +333,66 @@ function Monument({ id }: { id: string }) {
     );
   }
 
+  if (id === "bald-head-island-club") {
+    return (
+      <>
+        {/* Tennis court */}
+        <mesh position={[0, 1.6, 0]}>
+          <boxGeometry args={[5.2, 0.18, 3.0]} />
+          <meshStandardMaterial color="#567a4a" roughness={1} />
+        </mesh>
+        {/* Court boundary lines */}
+        <mesh position={[0, 1.72, -1.32]}>
+          <boxGeometry args={[5.0, 0.04, 0.05]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[0, 1.72, 1.32]}>
+          <boxGeometry args={[5.0, 0.04, 0.05]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[-2.35, 1.72, 0]}>
+          <boxGeometry args={[0.05, 0.04, 2.7]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[2.35, 1.72, 0]}>
+          <boxGeometry args={[0.05, 0.04, 2.7]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[0, 1.73, 0]}>
+          <boxGeometry args={[0.05, 0.04, 2.6]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[0, 1.74, 0]}>
+          <boxGeometry args={[5.0, 0.04, 0.04]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        {/* Low net */}
+        <mesh position={[0, 2.02, 0]}>
+          <boxGeometry args={[0.06, 0.58, 2.9]} />
+          <meshStandardMaterial color="#d8d2c0" roughness={1} transparent opacity={0.72} />
+        </mesh>
+        <mesh position={[0, 2.34, 0]}>
+          <boxGeometry args={[0.08, 0.06, 3.0]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        {/* Tiny clubhouse block */}
+        <mesh position={[-2.1, 2.18, -2.25]}>
+          <boxGeometry args={[1.5, 1.1, 0.9]} />
+          <meshStandardMaterial color={stoneLight} roughness={1} />
+        </mesh>
+        <mesh position={[-2.1, 2.85, -2.25]}>
+          <boxGeometry args={[1.75, 0.16, 1.1]} />
+          <meshStandardMaterial color={stoneDark} roughness={1} />
+        </mesh>
+        {/* Tennis ball */}
+        <mesh position={[1.55, 1.95, 0.85]}>
+          <sphereGeometry args={[0.14, 10, 8]} />
+          <meshStandardMaterial color="#d6dd52" roughness={0.8} />
+        </mesh>
+      </>
+    );
+  }
+
   if (id === "commons-tower") {
     return (
       <>

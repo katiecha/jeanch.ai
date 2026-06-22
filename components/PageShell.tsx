@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { isMapFound } from "@/lib/discovery";
 
 interface PageShellProps {
   title: string;
@@ -13,13 +11,6 @@ interface PageShellProps {
 }
 
 export function PageShell({ title, subtitle, accentColor, children, backLabel }: PageShellProps) {
-  const [mapUnlocked, setMapUnlocked] = useState(false);
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setMapUnlocked(isMapFound()), 0);
-    return () => window.clearTimeout(t);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#050f1a] text-white">
       {/* Nav */}
@@ -30,14 +21,12 @@ export function PageShell({ title, subtitle, accentColor, children, backLabel }:
         >
           &larr; {backLabel ?? "Back to sea"}
         </Link>
-        {mapUnlocked && (
-          <Link
-            href="/"
-            className="text-white/60 hover:text-amber-400 text-sm transition-colors font-mono"
-          >
-            View map
-          </Link>
-        )}
+        <Link
+          href="/"
+          className="text-white/60 hover:text-amber-400 text-sm transition-colors font-mono"
+        >
+          View map
+        </Link>
       </nav>
 
       {/* Hero */}

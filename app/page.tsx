@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GRAPH } from "@/lib/graph";
-import { getVisited, isMapFound } from "@/lib/discovery";
+import { getVisited } from "@/lib/discovery";
 
 interface NodeMeta {
   id: string;
@@ -20,6 +20,7 @@ const MAP_POSITIONS: Record<string, { x: number; y: number }> = {
   "ferry-dock":        { x: 70,  y: 190 },
   "old-baldy":         { x: 200, y: 80  },
   "old-boat-house":    { x: 330, y: 190 },
+  "bald-head-island-club": { x: 70, y: 280 },
   "shoals-club":       { x: 200, y: 200 },
   "commons-tower":     { x: 200, y: 20  },
 };
@@ -28,21 +29,30 @@ const EDGES: Array<[string, string]> = [
   ["happy-fathers-day", "ferry-dock"],
   ["happy-fathers-day", "old-baldy"],
   ["happy-fathers-day", "old-boat-house"],
+  ["happy-fathers-day", "bald-head-island-club"],
   ["ferry-dock",        "shoals-club"],
   ["old-baldy",         "shoals-club"],
   ["old-boat-house",    "shoals-club"],
+  ["bald-head-island-club", "shoals-club"],
   ["shoals-club",       "commons-tower"],
 ];
 
 export default function Home() {
   const router = useRouter();
-  const [nodes, setNodes] = useState<NodeMeta[]>([]);
-  const [mapFound, setMapFound] = useState(false);
+  const [nodes, setNodes] = useState<NodeMeta[]>(
+    Object.values(GRAPH).map((n) => ({
+      id: n.id,
+      title: n.title,
+      route: n.route,
+      visited: false,
+      x: MAP_POSITIONS[n.id]?.x ?? 200,
+      y: MAP_POSITIONS[n.id]?.y ?? 160,
+    }))
+  );
 
   useEffect(() => {
     const t = window.setTimeout(() => {
       const visited = getVisited();
-      setMapFound(isMapFound());
       setNodes(
         Object.values(GRAPH).map((n) => ({
           id: n.id,
@@ -57,25 +67,6 @@ export default function Home() {
 
     return () => window.clearTimeout(t);
   }, []);
-
-  if (!mapFound) {
-    return (
-      <main className="min-h-screen bg-[#e8eff7] flex flex-col items-center justify-center">
-        <p className="text-[8px] font-mono tracking-[0.7em] uppercase text-[#002147]/30">
-          Keep sailing
-        </p>
-        <p className="text-[8px] font-mono tracking-[0.5em] uppercase text-[#002147]/15 mt-3">
-          The map reveals itself
-        </p>
-        <Link
-          href="/happy-fathers-day"
-          className="mt-14 text-[8px] font-mono tracking-[0.5em] uppercase text-[#002147]/30 hover:text-[#002147] transition-colors"
-        >
-          Return to sea
-        </Link>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-[#e8eff7] flex flex-col items-center justify-center px-8 py-16">
