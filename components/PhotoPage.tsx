@@ -89,6 +89,8 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
                   fill
                   className="object-cover"
                   sizes="148px"
+                  priority={i === 0}
+                  quality={82}
                 />
               </div>
             </li>
@@ -99,15 +101,17 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
       {/* Lightbox — click anywhere to close, no X */}
       {lightbox && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer relative"
           onClick={() => setLightbox(null)}
         >
           <Image
             src={lightbox}
             alt=""
-            width={1200}
-            height={900}
-            className="object-contain max-h-[92vh] max-w-[92vw] w-auto h-auto"
+            fill
+            className="object-contain"
+            sizes="92vw"
+            quality={88}
+            priority
           />
         </div>
       )}

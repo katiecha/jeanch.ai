@@ -30,6 +30,23 @@ A Father's Day gift website themed around Bald Head Island, NC. The experience i
 - React Three Fiber v9 + Three.js + Drei
 - No database, no auth, no API routes — this is a static gift site
 
+### 3D Layer
+
+**Three.js** is the WebGL engine — geometry, materials, lights, and the scene graph.
+
+**React Three Fiber (R3F)** wraps Three.js in React. Instead of imperative `new THREE.Mesh()` calls you write JSX: `<mesh>`, `<boxGeometry>`, `<meshStandardMaterial>`. The `<Canvas>` in `SailboatScene.tsx` is the scene entry point.
+
+**Drei** is a utility belt for R3F. Used components:
+- `<Sky>` — procedural atmospheric sky shader (sun position, turbidity, rayleigh)
+- `<Html>` — anchors a DOM element (the Enter button) to a 3D world position
+
+**`useFrame()`** is the render loop hook — fires every animation frame. Used in:
+- `Ocean.tsx` — mutates vertex positions each frame to produce sine-wave water ripple
+- `Sailboat.tsx` — reads keyboard/mouse input, moves the boat, repositions the camera, checks island proximity
+- `Island.tsx` (inside `GrassTuft`) — sways grass with sine/cosine oscillation
+
+**Geometry primitives used:** `boxGeometry`, `cylinderGeometry`, `planeGeometry`, `sphereGeometry` — all Three.js built-ins, no external 3D model files.
+
 ---
 
 ## Code Conventions
@@ -148,6 +165,25 @@ Do not add new islands without confirming the name comes from the real BHI map.
 - Map unlock is stored under `"found-map"`
 - `lib/discovery.ts` is the single source of truth — do not read/write localStorage directly elsewhere
 - `lib/graph.ts` defines node IDs, routes, unlock chains, and world positions
+
+### Graph Topology
+
+```
+happy-fathers-day  (entry page — not a sailboat island)
+├── ferry-dock       ─┐
+├── old-baldy         ├─ all three must be visited → unlocks shoals-club
+└── old-boat-house   ─┘
+                           ↓
+                      shoals-club   (requires all 3 above)
+                           ↓
+                      commons-tower (requires shoals-club)
+```
+
+`happy-fathers-day` is the `/happy-fathers-day` page — it exists in the graph to own the initial `unlocks` list but is filtered out of `ISLAND_NODES` and never rendered in the 3D scene.
+
+`shoals-club` is a convergence node — it has a `requires` list of all three preceding islands. `commons-tower` is the terminal node (`unlocks: []`).
+
+The secret map at `/` unlocks once `ferry-dock`, `old-baldy`, `old-boat-house`, and `shoals-club` have all been visited (defined by `MAP_UNLOCK_REQUIRES` in `graph.ts`).
 
 ---
 
