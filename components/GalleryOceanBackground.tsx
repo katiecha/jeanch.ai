@@ -25,7 +25,7 @@ export function GalleryOceanBackground() {
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
         <GalleryCamera />
         <Ocean />
-        <FishSchool count={40} spread={50} centerZ={-12} />
+        <FishSchool count={22} spread={45} centerZ={-12} />
       </Canvas>
     </div>
   );

@@ -148,10 +148,7 @@ function Monument({ id }: { id: string }) {
         <GrassTuft position={[2.8,  1.45, 1.5]}  phase={0.0} />
         <GrassTuft position={[-2.5, 1.45, 2.2]}  phase={1.4} />
         <GrassTuft position={[3.2,  1.45, -0.8]} phase={2.3} />
-        <GrassTuft position={[-2.0, 1.45, -3.0]} phase={0.9} />
-        <GrassTuft position={[1.5,  1.45, 3.5]}  phase={1.8} />
         <GrassTuft position={[-3.5, 1.45, 0.8]}  phase={2.7} />
-        <GrassTuft position={[3.5,  1.45, -2.5]} phase={0.4} />
       </>
     );
   }
@@ -247,9 +244,6 @@ function Monument({ id }: { id: string }) {
         </mesh>
         <GrassTuft position={[-2.5, 1.45, -1.5]} phase={0.5} />
         <GrassTuft position={[-1.8, 1.45, 2.2]}  phase={1.3} />
-        <GrassTuft position={[-3.2, 1.45, 0.8]}  phase={2.1} />
-        <GrassTuft position={[0.8,  1.45, 3.5]}  phase={0.8} />
-        <GrassTuft position={[1.5,  1.45, -3.0]} phase={1.7} />
         <GrassTuft position={[-3.5, 1.45, -0.5]} phase={2.5} />
         <GrassTuft position={[-2.0, 1.45, -3.2]} phase={3.2} />
       </>
@@ -423,8 +417,6 @@ function Monument({ id }: { id: string }) {
         <GrassTuft position={[-3.0, 1.45, -2.0]} phase={1.1} />
         <GrassTuft position={[3.5,  1.45, 0.5]}  phase={2.0} />
         <GrassTuft position={[-3.5, 1.45, 1.0]}  phase={0.7} />
-        <GrassTuft position={[2.5,  1.45, 2.8]}  phase={1.6} />
-        <GrassTuft position={[-2.8, 1.45, 2.5]}  phase={2.4} />
       </>
     );
   }
@@ -452,10 +444,6 @@ function Monument({ id }: { id: string }) {
         <GrassTuft position={[-0.3, 2.62, -0.9]} phase={0.7} />
         <GrassTuft position={[0.8,  2.55, 1.0]}  phase={1.8} />
         <GrassTuft position={[-1.2, 2.46, 0.2]}  phase={3.1} />
-        <GrassTuft position={[0.2,  2.50, 1.3]}  phase={2.0} />
-        <GrassTuft position={[-0.6, 2.58, -0.5]} phase={0.4} />
-        <GrassTuft position={[1.4,  2.42, 0.7]}  phase={1.5} />
-        <GrassTuft position={[-0.1, 2.64, 0.9]}  phase={2.8} />
       </>
     );
   }
@@ -468,8 +456,6 @@ function Monument({ id }: { id: string }) {
         </group>
         <GrassTuft position={[3.5,  1.45, -2.0]} phase={0.3} />
         <GrassTuft position={[-3.8, 1.45, 1.5]}  phase={1.2} />
-        <GrassTuft position={[4.0,  1.45, 1.0]}  phase={2.1} />
-        <GrassTuft position={[-2.5, 1.45, -3.5]} phase={0.8} />
         <GrassTuft position={[2.0,  1.45, 3.5]}  phase={1.9} />
       </>
     );
@@ -529,8 +515,6 @@ function Monument({ id }: { id: string }) {
         <GrassTuft position={[-3.5, 1.45, -1.8]} phase={1.5} />
         <GrassTuft position={[4.2,  1.45, -0.5]} phase={2.2} />
         <GrassTuft position={[-4.2, 1.45, 1.0]}  phase={0.3} />
-        <GrassTuft position={[2.0,  1.45, -3.5]} phase={1.9} />
-        <GrassTuft position={[-2.0, 1.45, 3.5]}  phase={2.8} />
       </>
     );
   }

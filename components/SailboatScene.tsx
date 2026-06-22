@@ -72,7 +72,7 @@ export function SailboatScene() {
             onDiscover={handleDiscover}
           />
         ))}
-        <EffectComposer multisampling={4}>
+        <EffectComposer multisampling={2}>
           <Bloom luminanceThreshold={0.65} luminanceSmoothing={0.45} intensity={0.45} />
           <Vignette eskil={false} offset={0.18} darkness={0.45} />
           <ChromaticAberration
@@ -84,8 +84,9 @@ export function SailboatScene() {
       </Canvas>
       <button
         onClick={() => sailboatRef.current?.reset()}
-        className="absolute bottom-6 right-8 z-10 text-white/60 hover:text-white text-xl font-mono transition-colors"
+        className="absolute bottom-6 right-[96px] z-10 hidden md:flex w-7 h-7 bg-white/80 hover:bg-white text-[#002147] text-xs font-mono rounded-full items-center justify-center shadow-md transition-colors"
         title="Return to start"
+        aria-label="Return to start"
       >
         ⌂
       </button>

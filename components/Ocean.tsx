@@ -27,7 +27,7 @@ export function Ocean() {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-      <planeGeometry args={[300, 300, 140, 140]} />
+      <planeGeometry args={[300, 300, 70, 70]} />
       <shaderMaterial
         ref={materialRef}
         uniforms={uniforms}
