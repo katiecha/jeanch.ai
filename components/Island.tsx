@@ -218,6 +218,27 @@ function Monument({ id }: { id: string }) {
           <boxGeometry args={[3.45, 0.34, 0.08]} />
           <meshStandardMaterial color={houseDark} roughness={0.9} />
         </mesh>
+        <mesh position={[0, 2.55, -1.14]}>
+          <boxGeometry args={[3.45, 0.34, 0.08]} />
+          <meshStandardMaterial color={houseDark} roughness={0.9} />
+        </mesh>
+        {/* White corner and belt trim */}
+        {([-1.75, 1.75] as number[]).map((x) =>
+          ([-1.14, 1.14] as number[]).map((z) => (
+            <mesh key={`house-corner-${x}-${z}`} position={[x, 3.32, z]}>
+              <boxGeometry args={[0.10, 2.08, 0.10]} />
+              <meshStandardMaterial color={trim} roughness={1} />
+            </mesh>
+          ))
+        )}
+        <mesh position={[0, 4.27, 1.15]}>
+          <boxGeometry args={[3.55, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        <mesh position={[0, 4.27, -1.15]}>
+          <boxGeometry args={[3.55, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
         {/* Stilts */}
         {([-1.35, 1.35] as number[]).map((x) =>
           ([-0.8, 0.8] as number[]).map((z) => (
@@ -232,8 +253,19 @@ function Monument({ id }: { id: string }) {
           <boxGeometry args={[3.7, 0.16, 0.72]} />
           <meshStandardMaterial color={trim} roughness={1} />
         </mesh>
+        {/* Back porch */}
+        <mesh position={[0, 2.45, -1.65]}>
+          <boxGeometry args={[3.7, 0.16, 0.72]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
         {([-1.55, -0.55, 0.55, 1.55] as number[]).map((x) => (
           <mesh key={`porch-post-${x}`} position={[x, 3.35, 1.93]}>
+            <boxGeometry args={[0.09, 1.6, 0.09]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
+        {([-1.55, -0.55, 0.55, 1.55] as number[]).map((x) => (
+          <mesh key={`back-porch-post-${x}`} position={[x, 3.35, -1.93]}>
             <boxGeometry args={[0.09, 1.6, 0.09]} />
             <meshStandardMaterial color={trim} roughness={1} />
           </mesh>
@@ -246,6 +278,14 @@ function Monument({ id }: { id: string }) {
           <boxGeometry args={[3.8, 0.08, 0.08]} />
           <meshStandardMaterial color={trim} roughness={1} />
         </mesh>
+        <mesh position={[0, 3.85, -1.95]}>
+          <boxGeometry args={[3.8, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        <mesh position={[0, 3.08, -1.96]}>
+          <boxGeometry args={[3.8, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
         {/* Windows and door */}
         {([-0.95, 0.95] as number[]).map((x) => (
           <mesh key={`beach-window-${x}`} position={[x, 3.35, 1.12]}>
@@ -253,7 +293,42 @@ function Monument({ id }: { id: string }) {
             <meshStandardMaterial color="#dceaf0" roughness={0.5} />
           </mesh>
         ))}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`back-beach-window-${x}`} position={[x, 3.35, -1.12]}>
+            <boxGeometry args={[0.62, 0.62, 0.08]} />
+            <meshStandardMaterial color="#dceaf0" roughness={0.5} />
+          </mesh>
+        ))}
+        {/* Window crossbars */}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`front-window-bar-v-${x}`} position={[x, 3.35, 1.17]}>
+            <boxGeometry args={[0.06, 0.66, 0.04]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`front-window-bar-h-${x}`} position={[x, 3.35, 1.18]}>
+            <boxGeometry args={[0.66, 0.06, 0.04]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`back-window-bar-v-${x}`} position={[x, 3.35, -1.17]}>
+            <boxGeometry args={[0.06, 0.66, 0.04]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`back-window-bar-h-${x}`} position={[x, 3.35, -1.18]}>
+            <boxGeometry args={[0.66, 0.06, 0.04]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
         <mesh position={[0, 3.2, 1.13]}>
+          <boxGeometry args={[0.46, 1.15, 0.09]} />
+          <meshStandardMaterial color={trim} roughness={0.9} />
+        </mesh>
+        <mesh position={[0, 3.2, -1.13]}>
           <boxGeometry args={[0.46, 1.15, 0.09]} />
           <meshStandardMaterial color={trim} roughness={0.9} />
         </mesh>
