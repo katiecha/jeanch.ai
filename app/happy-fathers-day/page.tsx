@@ -35,13 +35,33 @@ export default function HappyFathersDay() {
     markVisited("happy-fathers-day");
   }, []);
 
+  function emitKey(key: string, code: string, type: "keydown" | "keyup") {
+    window.dispatchEvent(new KeyboardEvent(type, { key, code, bubbles: true }));
+  }
+
+  function touchKey(key: string, code: string) {
+    return {
+      onPointerDown: (e: React.PointerEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.currentTarget.setPointerCapture(e.pointerId);
+        emitKey(key, code, "keydown");
+      },
+      onPointerUp: (e: React.PointerEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        emitKey(key, code, "keyup");
+      },
+      onPointerCancel: () => emitKey(key, code, "keyup"),
+      onPointerLeave: () => emitKey(key, code, "keyup"),
+    };
+  }
+
   return (
-    <main className="relative w-screen h-screen overflow-hidden">
+    <main className="relative w-screen h-[100dvh] overflow-hidden touch-none">
       <SailboatScene />
 
       {showMap && (
         <div className="absolute inset-0 z-40 flex items-center justify-center bg-[#002147]/10 backdrop-blur-[2px]">
-          <div className="relative w-[min(92vw,560px)] bg-white/95 p-8 shadow-[0_36px_90px_rgba(0,33,71,0.22)] border-t-2 border-[#002147]">
+          <div className="relative w-[min(92vw,560px)] bg-white/95 p-5 md:p-8 shadow-[0_36px_90px_rgba(0,33,71,0.22)] border-t-2 border-[#002147]">
             <button
               onClick={() => setShowMap(false)}
               aria-label="Close map"
@@ -99,6 +119,47 @@ export default function HappyFathersDay() {
           </div>
         </div>
       )}
+
+      <div className="md:hidden absolute bottom-6 left-6 grid grid-cols-3 grid-rows-3 gap-1.5 pointer-events-auto">
+        <div />
+        <button
+          {...touchKey("w", "KeyW")}
+          aria-label="Forward"
+          className="w-10 h-10 bg-white/80 active:bg-white text-[#002147] text-xs font-mono rounded-full shadow-md"
+        >
+          ↑
+        </button>
+        <div />
+        <button
+          {...touchKey("a", "KeyA")}
+          aria-label="Turn left"
+          className="w-10 h-10 bg-white/80 active:bg-white text-[#002147] text-xs font-mono rounded-full shadow-md"
+        >
+          ←
+        </button>
+        <button
+          {...touchKey("s", "KeyS")}
+          aria-label="Reverse"
+          className="w-10 h-10 bg-white/80 active:bg-white text-[#002147] text-xs font-mono rounded-full shadow-md"
+        >
+          ↓
+        </button>
+        <button
+          {...touchKey("d", "KeyD")}
+          aria-label="Turn right"
+          className="w-10 h-10 bg-white/80 active:bg-white text-[#002147] text-xs font-mono rounded-full shadow-md"
+        >
+          →
+        </button>
+      </div>
+
+      <button
+        {...touchKey(" ", "Space")}
+        aria-label="Enter island"
+        className="md:hidden absolute bottom-6 right-[104px] w-10 h-10 bg-white/80 active:bg-white text-[#002147] text-xs font-mono rounded-full flex items-center justify-center shadow-md pointer-events-auto"
+      >
+        ↵
+      </button>
 
       {/* Help — bottom right, silent until tapped */}
       <div className="absolute bottom-6 right-6">

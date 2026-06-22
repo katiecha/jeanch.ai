@@ -8,7 +8,6 @@ const PHOTOS = [
   "/photos/IMG_6970.JPG",
   "/photos/IMG_7173.JPG",
   "/photos/IMG_8268.JPG",
-  "/photos/IMG_8269.JPG",
 ];
 
 export default function ShoalsClub() {

@@ -33,13 +33,13 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
   }, []);
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
+    const move = (e: PointerEvent) => {
       // Normalize to -0.5 → 0.5
       mouse.current.x = e.clientX / window.innerWidth - 0.5;
       mouse.current.y = e.clientY / window.innerHeight - 0.5;
     };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    window.addEventListener("pointermove", move);
+    return () => window.removeEventListener("pointermove", move);
   }, []);
 
   useFrame((_, delta) => {

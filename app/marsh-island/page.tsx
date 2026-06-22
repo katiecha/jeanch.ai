@@ -8,7 +8,6 @@ const PHOTOS = [
   "/photos/club.jpeg",
   "/photos/IMG_0959.JPEG",
   "/photos/IMG_2268.jpeg",
-  "/photos/IMG_6688.jpeg",
 ];
 
 export default function MarshIslandPage() {

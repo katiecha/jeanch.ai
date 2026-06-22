@@ -8,7 +8,6 @@ const PHOTOS = [
   "/photos/ferry.JPG",
   "/photos/DSC_0285.jpeg",
   "/photos/IMG_0086.JPG",
-  "/photos/IMG_0542.jpeg",
 ];
 
 export default function FerryDock() {

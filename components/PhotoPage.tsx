@@ -40,7 +40,7 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
 
   return (
     <main className="min-h-screen bg-[#e8eff7] flex flex-col">
-      <nav className="flex items-center justify-between px-8 pt-8">
+      <nav className="flex items-center justify-between px-5 md:px-8 pt-6 md:pt-8">
         <Link
           href="/happy-fathers-day"
           className="text-[#00356b]/40 hover:text-[#00356b] text-xs font-mono tracking-widest transition-colors"
@@ -56,15 +56,15 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
       </nav>
 
       <div
-        className={`flex-1 flex flex-col items-center justify-center px-10 py-12 transition-all duration-1000 ${
+        className={`flex-1 flex flex-col items-center justify-center px-4 md:px-10 py-10 md:py-12 transition-all duration-1000 ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <p className="text-[#00356b]/50 text-[10px] font-mono tracking-[0.6em] uppercase mb-14">
+        <p className="text-[#00356b]/50 text-[10px] font-mono tracking-[0.6em] uppercase mb-10 md:mb-14">
           {title}
         </p>
 
-        <ul className="grid grid-cols-2 gap-8 p-4">
+        <ul className="grid grid-cols-2 gap-5 md:gap-8 p-2 md:p-4">
           {photos.map((src, i) => (
             <li
               key={src}
@@ -78,7 +78,7 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
               `}
               style={{ padding: "12px 12px 52px 12px" }}
             >
-              <div className="relative" style={{ width: 148, height: 148 }}>
+              <div className="relative w-[34vw] max-w-[148px] aspect-square">
                 <Image
                   src={src}
                   alt={title}

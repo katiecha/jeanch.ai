@@ -8,7 +8,6 @@ const PHOTOS = [
   "/photos/IMG_9510.jpeg",
   "/photos/IMG_9593.jpeg",
   "/photos/Picture 055.JPG",
-  "/photos/Resized_1000000069.jpg",
 ];
 
 export default function CommonsT() {
