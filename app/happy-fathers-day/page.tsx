@@ -10,7 +10,7 @@ const MAP_POSITIONS: Record<string, { x: number; y: number }> = {
   "ferry-dock": { x: 70, y: 190 },
   "old-baldy": { x: 200, y: 80 },
   "old-boat-house": { x: 330, y: 190 },
-  "bald-head-island-club": { x: 70, y: 280 },
+  "marsh-island": { x: 70, y: 280 },
   "shoals-club": { x: 200, y: 200 },
   "commons-tower": { x: 200, y: 20 },
 };
@@ -19,11 +19,11 @@ const MAP_EDGES: Array<[string, string]> = [
   ["happy-fathers-day", "ferry-dock"],
   ["happy-fathers-day", "old-baldy"],
   ["happy-fathers-day", "old-boat-house"],
-  ["happy-fathers-day", "bald-head-island-club"],
+  ["happy-fathers-day", "marsh-island"],
   ["ferry-dock", "shoals-club"],
   ["old-baldy", "shoals-club"],
   ["old-boat-house", "shoals-club"],
-  ["bald-head-island-club", "shoals-club"],
+  ["marsh-island", "shoals-club"],
   ["shoals-club", "commons-tower"],
 ];
 
@@ -115,6 +115,67 @@ export default function HappyFathersDay() {
         </div>
       )}
 
+      {showMap && !showIntro && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-[#002147]/10 backdrop-blur-[2px]">
+          <div className="relative w-[min(92vw,560px)] bg-white/95 p-8 shadow-[0_36px_90px_rgba(0,33,71,0.22)] border-t-2 border-[#002147]">
+            <button
+              onClick={() => setShowMap(false)}
+              aria-label="Close map"
+              className="absolute right-4 top-4 w-7 h-7 text-[#002147]/45 hover:text-[#002147] font-mono text-sm transition-colors"
+            >
+              x
+            </button>
+            <svg viewBox="-12 -12 424 336" className="w-full" aria-label="Island map graph">
+              {MAP_EDGES.map(([a, b]) => {
+                const nA = MAP_POSITIONS[a];
+                const nB = MAP_POSITIONS[b];
+                if (!nA || !nB) return null;
+                return (
+                  <line
+                    key={`${a}-${b}`}
+                    x1={nA.x}
+                    y1={nA.y}
+                    x2={nB.x}
+                    y2={nB.y}
+                    stroke="#002147"
+                    strokeWidth={0.75}
+                    strokeOpacity={0.22}
+                  />
+                );
+              })}
+              {Object.values(GRAPH).map((node) => {
+                const pos = MAP_POSITIONS[node.id];
+                if (!pos) return null;
+                return (
+                  <g key={node.id}>
+                    <rect
+                      x={pos.x - 6}
+                      y={pos.y - 6}
+                      width={12}
+                      height={12}
+                      fill="#002147"
+                      fillOpacity={node.id === "happy-fathers-day" ? 0.28 : 0.82}
+                    />
+                    <text
+                      x={pos.x}
+                      y={pos.y + 21}
+                      textAnchor="middle"
+                      fontSize={7}
+                      fontFamily="monospace"
+                      letterSpacing="0.08em"
+                      fill="#002147"
+                      fillOpacity={0.58}
+                    >
+                      {node.title.toUpperCase()}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        </div>
+      )}
+
       {/* Help — bottom right, silent until tapped */}
       {!showIntro && (
         <div className="absolute bottom-6 right-6">
@@ -123,57 +184,6 @@ export default function HappyFathersDay() {
               <p>W A S D — sail</p>
               <p>Space — enter island</p>
               <p>Sail close to discover</p>
-            </div>
-          )}
-          {showMap && (
-            <div className="mb-3 w-[292px] bg-white/90 backdrop-blur-sm p-5 shadow-lg border-l-2 border-[#002147]">
-              <svg viewBox="-12 -12 424 336" className="w-full" aria-label="Island map graph">
-                {MAP_EDGES.map(([a, b]) => {
-                  const nA = MAP_POSITIONS[a];
-                  const nB = MAP_POSITIONS[b];
-                  if (!nA || !nB) return null;
-                  return (
-                    <line
-                      key={`${a}-${b}`}
-                      x1={nA.x}
-                      y1={nA.y}
-                      x2={nB.x}
-                      y2={nB.y}
-                      stroke="#002147"
-                      strokeWidth={0.75}
-                      strokeOpacity={0.22}
-                    />
-                  );
-                })}
-                {Object.values(GRAPH).map((node) => {
-                  const pos = MAP_POSITIONS[node.id];
-                  if (!pos) return null;
-                  return (
-                    <g key={node.id}>
-                      <rect
-                        x={pos.x - 6}
-                        y={pos.y - 6}
-                        width={12}
-                        height={12}
-                        fill="#002147"
-                        fillOpacity={node.id === "happy-fathers-day" ? 0.28 : 0.82}
-                      />
-                      <text
-                        x={pos.x}
-                        y={pos.y + 21}
-                        textAnchor="middle"
-                        fontSize={7}
-                        fontFamily="monospace"
-                        letterSpacing="0.08em"
-                        fill="#002147"
-                        fillOpacity={0.58}
-                      >
-                        {node.title.toUpperCase()}
-                      </text>
-                    </g>
-                  );
-                })}
-              </svg>
             </div>
           )}
           <div className="flex justify-end gap-2">

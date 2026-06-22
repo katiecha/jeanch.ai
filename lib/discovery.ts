@@ -41,26 +41,3 @@ export function isNodeUnlocked(nodeId: string, requires?: string[]): boolean {
   const visited = getVisited();
   return requires.every((req) => visited.includes(req));
 }
-
-const ALL_GAME_ISLANDS = [
-  "ferry-dock",
-  "old-baldy",
-  "old-boat-house",
-  "bald-head-island-club",
-  "shoals-club",
-  "commons-tower",
-];
-const COMPLETION_SHOWN_KEY = "completion-shown";
-
-export function hasCompletedAll(): boolean {
-  return ALL_GAME_ISLANDS.every((id) => hasVisited(id));
-}
-
-export function hasShownCompletion(): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem(COMPLETION_SHOWN_KEY) === "true";
-}
-
-export function markCompletionShown(): void {
-  localStorage.setItem(COMPLETION_SHOWN_KEY, "true");
-}

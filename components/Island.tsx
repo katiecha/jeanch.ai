@@ -4,6 +4,7 @@ import { useRef, useMemo } from "react";
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { MarshIsland } from "./MarshIsland";
 
 interface IslandProps {
   id: string;
@@ -102,9 +103,6 @@ function OldBaldyMonument() {
 }
 
 function Monument({ id }: { id: string }) {
-  const stoneDark = "#c8bea8";
-  const stoneLight = "#f0eadc";
-
   if (id === "old-baldy") {
     return <OldBaldyMonument />;
   }
@@ -112,91 +110,11 @@ function Monument({ id }: { id: string }) {
   if (id === "ferry-dock") {
     const wood = "#7b5e2a";
     const woodDark = "#4a3010";
-    const woodLight = "#a98546";
     const ferryBlue = "#1e3a8a";
     const ferryWhite = "#f2f5f8";
-    const trim = "#e7d7aa";
 
     return (
       <>
-        {/* === BOAT SUPPLY BUILDING === */}
-        {/* Platform deck */}
-        <mesh position={[0.5, 1.58, 0]}>
-          <boxGeometry args={[3.2, 0.2, 2.8]} />
-          <meshStandardMaterial color={wood} roughness={1} />
-        </mesh>
-        <mesh position={[0.5, 1.70, 0]}>
-          <boxGeometry args={[3.4, 0.08, 3.0]} />
-          <meshStandardMaterial color={trim} roughness={0.8} />
-        </mesh>
-        {/* Main walls — weathered dock wood */}
-        <mesh position={[0.5, 2.88, 0]}>
-          <boxGeometry args={[2.8, 2.2, 2.4]} />
-          <meshStandardMaterial color={wood} roughness={1} />
-        </mesh>
-        {/* Vertical plank seams */}
-        {[-0.7, -0.25, 0.2, 0.65, 1.1, 1.55].map((x) => (
-          <mesh key={`wall-plank-${x}`} position={[x, 2.9, 1.23]}>
-            <boxGeometry args={[0.05, 2.05, 0.08]} />
-            <meshStandardMaterial color={woodDark} roughness={1} />
-          </mesh>
-        ))}
-        {[-0.7, -0.25, 0.2, 0.65, 1.1, 1.55].map((x) => (
-          <mesh key={`back-plank-${x}`} position={[x, 2.9, -1.23]}>
-            <boxGeometry args={[0.05, 2.05, 0.08]} />
-            <meshStandardMaterial color={woodDark} roughness={1} />
-          </mesh>
-        ))}
-        {/* Warm corner trim — 4 posts */}
-        {([[ 1.9, 1.2], [-0.9, 1.2], [1.9, -1.2], [-0.9, -1.2]] as [number, number][]).map(([x, z], i) => (
-          <mesh key={i} position={[x, 2.88, z]}>
-            <boxGeometry args={[0.10, 2.35, 0.10]} />
-            <meshStandardMaterial color={trim} roughness={0.8} />
-          </mesh>
-        ))}
-        {/* Wood accent band at wall top */}
-        <mesh position={[0.5, 4.03, 0]}>
-          <boxGeometry args={[2.85, 0.2, 2.45]} />
-          <meshStandardMaterial color={woodLight} roughness={1} />
-        </mesh>
-        {/* Large boat door on dock-facing side (+x face) */}
-        <mesh position={[1.92, 2.48, 0]}>
-          <boxGeometry args={[0.08, 1.8, 1.1]} />
-          <meshStandardMaterial color={trim} roughness={0.8} />
-        </mesh>
-        <mesh position={[1.935, 2.48, 0]}>
-          <boxGeometry args={[0.06, 1.6, 0.92]} />
-          <meshStandardMaterial color="#0a1020" roughness={1} />
-        </mesh>
-        {/* Windows — z+ side */}
-        {([-0.1, 1.1] as number[]).map((x, i) => (
-          <mesh key={i} position={[x, 3.1, 1.23]}>
-            <boxGeometry args={[0.55, 0.42, 0.07]} />
-            <meshStandardMaterial color="#1a2a33" roughness={0.5} metalness={0.05} />
-          </mesh>
-        ))}
-        {/* Windows — z- side */}
-        {([-0.1, 1.1] as number[]).map((x, i) => (
-          <mesh key={i} position={[x, 3.1, -1.23]}>
-            <boxGeometry args={[0.55, 0.42, 0.07]} />
-            <meshStandardMaterial color="#1a2a33" roughness={0.5} metalness={0.05} />
-          </mesh>
-        ))}
-        {/* Peaked gable roof */}
-        <mesh position={[0.5, 4.30, 0.52]} rotation={[0.44, 0, 0]}>
-          <boxGeometry args={[3.2, 0.13, 1.5]} />
-          <meshStandardMaterial color={woodDark} roughness={1} />
-        </mesh>
-        <mesh position={[0.5, 4.30, -0.52]} rotation={[-0.44, 0, 0]}>
-          <boxGeometry args={[3.2, 0.13, 1.5]} />
-          <meshStandardMaterial color={woodDark} roughness={1} />
-        </mesh>
-        {/* Ridge beam */}
-        <mesh position={[0.5, 4.62, 0]}>
-          <boxGeometry args={[3.3, 0.13, 0.22]} />
-          <meshStandardMaterial color="#2d1b08" roughness={1} />
-        </mesh>
-
         {/* === PIER / DOCK === */}
         <mesh position={[7.0, 0.7, 0]}>
           <boxGeometry args={[6.5, 0.2, 2.2]} />
@@ -283,8 +201,8 @@ function Monument({ id }: { id: string }) {
   }
 
   if (id === "old-boat-house") {
-    const housePurple = "#5670a7";
-    const houseDark = "#2f4f7d";
+    const housePurple = "#9f52b8";
+    const houseDark = "#7b3f91";
     const trim = "#f4f0dc";
     const roof = "#e7dfc8";
 
@@ -346,7 +264,7 @@ function Monument({ id }: { id: string }) {
         </mesh>
         <mesh position={[0, 4.43, 1.19]}>
           <cylinderGeometry args={[0.18, 0.18, 0.06, 18]} />
-          <meshStandardMaterial color="#2f4f7d" roughness={0.7} />
+          <meshStandardMaterial color={houseDark} roughness={0.7} />
         </mesh>
         {/* Gable roof */}
         <mesh position={[0, 4.85, 0.48]} rotation={[0.5, 0, 0]}>
@@ -405,63 +323,11 @@ function Monument({ id }: { id: string }) {
     );
   }
 
-  if (id === "bald-head-island-club") {
+  if (id === "marsh-island") {
     return (
-      <>
-        {/* Tennis court */}
-        <mesh position={[0, 1.6, 0]}>
-          <boxGeometry args={[5.2, 0.18, 3.0]} />
-          <meshStandardMaterial color="#567a4a" roughness={1} />
-        </mesh>
-        {/* Court boundary lines */}
-        <mesh position={[0, 1.72, -1.32]}>
-          <boxGeometry args={[5.0, 0.04, 0.05]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        <mesh position={[0, 1.72, 1.32]}>
-          <boxGeometry args={[5.0, 0.04, 0.05]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        <mesh position={[-2.35, 1.72, 0]}>
-          <boxGeometry args={[0.05, 0.04, 2.7]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        <mesh position={[2.35, 1.72, 0]}>
-          <boxGeometry args={[0.05, 0.04, 2.7]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        <mesh position={[0, 1.73, 0]}>
-          <boxGeometry args={[0.05, 0.04, 2.6]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        <mesh position={[0, 1.74, 0]}>
-          <boxGeometry args={[5.0, 0.04, 0.04]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        {/* Low net */}
-        <mesh position={[0, 2.02, 0]}>
-          <boxGeometry args={[0.06, 0.58, 2.9]} />
-          <meshStandardMaterial color="#d8d2c0" roughness={1} transparent opacity={0.72} />
-        </mesh>
-        <mesh position={[0, 2.34, 0]}>
-          <boxGeometry args={[0.08, 0.06, 3.0]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={1} />
-        </mesh>
-        {/* Tiny clubhouse block */}
-        <mesh position={[-2.1, 2.18, -2.25]}>
-          <boxGeometry args={[1.5, 1.1, 0.9]} />
-          <meshStandardMaterial color={stoneLight} roughness={1} />
-        </mesh>
-        <mesh position={[-2.1, 2.85, -2.25]}>
-          <boxGeometry args={[1.75, 0.16, 1.1]} />
-          <meshStandardMaterial color={stoneDark} roughness={1} />
-        </mesh>
-        {/* Tennis ball */}
-        <mesh position={[1.55, 1.95, 0.85]}>
-          <sphereGeometry args={[0.14, 10, 8]} />
-          <meshStandardMaterial color="#d6dd52" roughness={0.8} />
-        </mesh>
-      </>
+      <group position={[0, 1.55, 0]} scale={[0.46, 0.46, 0.46]}>
+        <MarshIsland position={[0, 0.35, 0]} />
+      </group>
     );
   }
 
@@ -481,24 +347,24 @@ function Monument({ id }: { id: string }) {
         {/* Golf cart body */}
         <mesh position={[-0.45, 2.0, 0.2]}>
           <boxGeometry args={[2.2, 0.55, 1.25]} />
-          <meshStandardMaterial color="#f4f0dc" roughness={0.8} />
+          <meshStandardMaterial color="#9f52b8" roughness={0.8} />
         </mesh>
         <mesh position={[-0.45, 2.38, 0.25]}>
           <boxGeometry args={[1.55, 0.22, 1.0]} />
-          <meshStandardMaterial color="#8f7440" roughness={1} />
+          <meshStandardMaterial color="#7b3f91" roughness={1} />
         </mesh>
         {/* Roof posts and roof */}
         {([-1.2, 0.3] as number[]).map((x) =>
           ([-0.35, 0.85] as number[]).map((z) => (
             <mesh key={`cart-post-${x}-${z}`} position={[x, 2.85, z]}>
               <boxGeometry args={[0.08, 1.0, 0.08]} />
-              <meshStandardMaterial color="#8f7440" roughness={1} />
+              <meshStandardMaterial color="#7b3f91" roughness={1} />
             </mesh>
           ))
         )}
         <mesh position={[-0.45, 3.4, 0.25]}>
           <boxGeometry args={[2.15, 0.16, 1.45]} />
-          <meshStandardMaterial color="#e9ddb8" roughness={1} />
+          <meshStandardMaterial color="#efe5c5" roughness={1} />
         </mesh>
         {/* Wheels */}
         {([-1.2, 0.3] as number[]).map((x) =>

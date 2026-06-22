@@ -11,7 +11,7 @@ const PHOTOS = [
   "/photos/IMG_6688.jpeg",
 ];
 
-export default function BaldHeadIslandClub() {
-  useEffect(() => { markVisited("bald-head-island-club"); }, []);
-  return <PhotoPage title="Bald Head Island Club" photos={PHOTOS} />;
+export default function MarshIslandPage() {
+  useEffect(() => { markVisited("marsh-island"); }, []);
+  return <PhotoPage title="Marsh" photos={PHOTOS} />;
 }

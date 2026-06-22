@@ -10,37 +10,18 @@ import { useRouter } from "next/navigation";
 import { Ocean } from "./Ocean";
 import { Sailboat } from "./Sailboat";
 import { Island } from "./Island";
-import { MarshIsland } from "./MarshIsland";
 import { ISLAND_NODES } from "@/lib/graph";
-import {
-  markVisited,
-  isNodeUnlocked,
-  hasCompletedAll,
-  hasShownCompletion,
-  markCompletionShown,
-} from "@/lib/discovery";
+import { markVisited, isNodeUnlocked } from "@/lib/discovery";
 
 export function SailboatScene() {
   const router = useRouter();
   const [nearIslandId, setNearIslandId] = useState<string | null>(null);
-  const [showCompletion, setShowCompletion] = useState(false);
 
   const islandPositions = ISLAND_NODES.map((n) => ({
     id: n.id,
     x: n.worldPosition.x,
     z: n.worldPosition.z,
   }));
-
-  // Show the Father's Day message once all islands have been visited
-  useEffect(() => {
-    const t = window.setTimeout(() => {
-      if (hasCompletedAll() && !hasShownCompletion()) {
-        setShowCompletion(true);
-      }
-    }, 0);
-
-    return () => window.clearTimeout(t);
-  }, []);
 
   const handleDiscover = useCallback(
     (id: string, route: string) => {
@@ -81,8 +62,6 @@ export function SailboatScene() {
             onDiscover={handleDiscover}
           />
         ))}
-        {/* Decorative marsh — two low mudflat patches with swaying grass */}
-        <MarshIsland position={[-40, 0, 5]} />
         <EffectComposer multisampling={4}>
           <Bloom luminanceThreshold={0.65} luminanceSmoothing={0.45} intensity={0.45} />
           <Vignette eskil={false} offset={0.18} darkness={0.45} />
@@ -94,45 +73,6 @@ export function SailboatScene() {
         </EffectComposer>
       </Canvas>
 
-      {/* Father's Day completion modal */}
-      {showCompletion && (
-        <div
-          className="absolute inset-0 flex items-center justify-center z-50"
-          style={{ backgroundColor: "rgba(0, 18, 42, 0.82)" }}
-        >
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-6 overflow-hidden">
-            {/* Ocean gradient header */}
-            <div
-              className="px-8 py-7 text-center"
-              style={{ background: "linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%)" }}
-            >
-              <div className="text-5xl mb-3">⛵</div>
-              <h2 className="text-white text-2xl font-bold tracking-wide">
-                All Islands Explored!
-              </h2>
-              <p className="text-blue-200 text-sm mt-1">You&apos;ve sailed every shore</p>
-            </div>
-            {/* Message */}
-            <div className="px-8 py-8 text-center">
-              <p className="text-slate-700 text-lg leading-relaxed font-medium">
-                Happy Father&apos;s Day Dad! Thank you for always believing and supporting me.
-                Love you to the moon and back!
-              </p>
-              <p className="text-slate-400 italic mt-5 text-base">— Love, Katie</p>
-              <button
-                onClick={() => {
-                  markCompletionShown();
-                  setShowCompletion(false);
-                }}
-                className="mt-8 px-10 py-3 rounded-full font-semibold text-base text-white transition-colors"
-                style={{ background: "linear-gradient(135deg, #1e3a8a, #0ea5e9)" }}
-              >
-                ♡ &nbsp;With Love
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

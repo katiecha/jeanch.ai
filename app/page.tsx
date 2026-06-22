@@ -20,7 +20,7 @@ const MAP_POSITIONS: Record<string, { x: number; y: number }> = {
   "ferry-dock":        { x: 70,  y: 190 },
   "old-baldy":         { x: 200, y: 80  },
   "old-boat-house":    { x: 330, y: 190 },
-  "bald-head-island-club": { x: 70, y: 280 },
+  "marsh-island": { x: 70, y: 280 },
   "shoals-club":       { x: 200, y: 200 },
   "commons-tower":     { x: 200, y: 20  },
 };
@@ -29,11 +29,11 @@ const EDGES: Array<[string, string]> = [
   ["happy-fathers-day", "ferry-dock"],
   ["happy-fathers-day", "old-baldy"],
   ["happy-fathers-day", "old-boat-house"],
-  ["happy-fathers-day", "bald-head-island-club"],
+  ["happy-fathers-day", "marsh-island"],
   ["ferry-dock",        "shoals-club"],
   ["old-baldy",         "shoals-club"],
   ["old-boat-house",    "shoals-club"],
-  ["bald-head-island-club", "shoals-club"],
+  ["marsh-island", "shoals-club"],
   ["shoals-club",       "commons-tower"],
 ];
 
