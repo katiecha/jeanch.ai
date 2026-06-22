@@ -16,7 +16,8 @@ export function PageShell({ title, subtitle, accentColor, children, backLabel }:
   const [mapUnlocked, setMapUnlocked] = useState(false);
 
   useEffect(() => {
-    setMapUnlocked(isMapFound());
+    const t = window.setTimeout(() => setMapUnlocked(isMapFound()), 0);
+    return () => window.clearTimeout(t);
   }, []);
 
   return (

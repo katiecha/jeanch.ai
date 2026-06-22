@@ -71,25 +71,25 @@ function OldBaldyMonument() {
   }, []);
 
   // Subtle historical off-center: lantern was added to one side when tower was raised
-  const ox = 0.22;
-  const oz = 0.08;
+  const ox = 0.18;
+  const oz = 0.06;
 
   return (
     <>
-      {/* Main tapered tower — wider top (0.82) so offset lantern still sits on it */}
+      {/* Main tapered tower — broad enough at the top for the offset lantern to sit fully on it */}
       <mesh position={[0, 5.5, 0]}>
-        <cylinderGeometry args={[0.82, 2.2, 9, 4]} />
+        <cylinderGeometry args={[1.04, 2.35, 9, 4]} />
         <meshStandardMaterial color="#a09688" roughness={1} map={stoneMap} />
       </mesh>
       {/* Gallery ring — offset */}
       <mesh position={[ox, 10.15, oz]}>
-        <cylinderGeometry args={[0.88, 0.88, 0.18, 8]} />
-        <meshStandardMaterial color="#2a2a2a" roughness={0.9} />
+        <cylinderGeometry args={[0.74, 0.74, 0.18, 8]} />
+        <meshStandardMaterial color="#4a3424" roughness={0.9} />
       </mesh>
-      {/* Lantern room — dark teal, offset */}
+      {/* Lantern room — brown, offset */}
       <mesh position={[ox, 10.72, oz]}>
-        <cylinderGeometry args={[0.70, 0.70, 0.9, 8]} />
-        <meshStandardMaterial color="#2d5a50" roughness={0.5} metalness={0.15} />
+        <cylinderGeometry args={[0.58, 0.58, 0.82, 8]} />
+        <meshStandardMaterial color="#5a3a24" roughness={0.65} metalness={0.05} />
       </mesh>
       {/* Finial */}
       <mesh position={[ox, 11.25, oz]}>
@@ -113,10 +113,10 @@ function Monument({ id }: { id: string }) {
   if (id === "ferry-dock") {
     const wood = "#7b5e2a";
     const woodDark = "#4a3010";
+    const woodLight = "#a98546";
     const ferryBlue = "#1e3a8a";
     const ferryWhite = "#f2f5f8";
-    const buildingRed = "#7a2e20";
-    const trim = "#f0ebe0";
+    const trim = "#e7d7aa";
 
     return (
       <>
@@ -130,22 +130,35 @@ function Monument({ id }: { id: string }) {
           <boxGeometry args={[3.4, 0.08, 3.0]} />
           <meshStandardMaterial color={trim} roughness={0.8} />
         </mesh>
-        {/* Main walls — deep red */}
+        {/* Main walls — weathered dock wood */}
         <mesh position={[0.5, 2.88, 0]}>
           <boxGeometry args={[2.8, 2.2, 2.4]} />
-          <meshStandardMaterial color={buildingRed} roughness={0.9} />
+          <meshStandardMaterial color={wood} roughness={1} />
         </mesh>
-        {/* White corner trim — 4 posts */}
+        {/* Vertical plank seams */}
+        {[-0.7, -0.25, 0.2, 0.65, 1.1, 1.55].map((x) => (
+          <mesh key={`wall-plank-${x}`} position={[x, 2.9, 1.23]}>
+            <boxGeometry args={[0.05, 2.05, 0.08]} />
+            <meshStandardMaterial color={woodDark} roughness={1} />
+          </mesh>
+        ))}
+        {[-0.7, -0.25, 0.2, 0.65, 1.1, 1.55].map((x) => (
+          <mesh key={`back-plank-${x}`} position={[x, 2.9, -1.23]}>
+            <boxGeometry args={[0.05, 2.05, 0.08]} />
+            <meshStandardMaterial color={woodDark} roughness={1} />
+          </mesh>
+        ))}
+        {/* Warm corner trim — 4 posts */}
         {([[ 1.9, 1.2], [-0.9, 1.2], [1.9, -1.2], [-0.9, -1.2]] as [number, number][]).map(([x, z], i) => (
           <mesh key={i} position={[x, 2.88, z]}>
             <boxGeometry args={[0.10, 2.35, 0.10]} />
             <meshStandardMaterial color={trim} roughness={0.8} />
           </mesh>
         ))}
-        {/* Navy accent band at wall top */}
+        {/* Wood accent band at wall top */}
         <mesh position={[0.5, 4.03, 0]}>
           <boxGeometry args={[2.85, 0.2, 2.45]} />
-          <meshStandardMaterial color="#1e3a8a" roughness={0.8} />
+          <meshStandardMaterial color={woodLight} roughness={1} />
         </mesh>
         {/* Large boat door on dock-facing side (+x face) */}
         <mesh position={[1.92, 2.48, 0]}>
@@ -160,29 +173,29 @@ function Monument({ id }: { id: string }) {
         {([-0.1, 1.1] as number[]).map((x, i) => (
           <mesh key={i} position={[x, 3.1, 1.23]}>
             <boxGeometry args={[0.55, 0.42, 0.07]} />
-            <meshStandardMaterial color="#2a4a6a" roughness={0.5} metalness={0.1} />
+            <meshStandardMaterial color="#1a2a33" roughness={0.5} metalness={0.05} />
           </mesh>
         ))}
         {/* Windows — z- side */}
         {([-0.1, 1.1] as number[]).map((x, i) => (
           <mesh key={i} position={[x, 3.1, -1.23]}>
             <boxGeometry args={[0.55, 0.42, 0.07]} />
-            <meshStandardMaterial color="#2a4a6a" roughness={0.5} metalness={0.1} />
+            <meshStandardMaterial color="#1a2a33" roughness={0.5} metalness={0.05} />
           </mesh>
         ))}
         {/* Peaked gable roof */}
         <mesh position={[0.5, 4.30, 0.52]} rotation={[0.44, 0, 0]}>
           <boxGeometry args={[3.2, 0.13, 1.5]} />
-          <meshStandardMaterial color="#2a2018" roughness={1} />
+          <meshStandardMaterial color={woodDark} roughness={1} />
         </mesh>
         <mesh position={[0.5, 4.30, -0.52]} rotation={[-0.44, 0, 0]}>
           <boxGeometry args={[3.2, 0.13, 1.5]} />
-          <meshStandardMaterial color="#2a2018" roughness={1} />
+          <meshStandardMaterial color={woodDark} roughness={1} />
         </mesh>
         {/* Ridge beam */}
         <mesh position={[0.5, 4.62, 0]}>
           <boxGeometry args={[3.3, 0.13, 0.22]} />
-          <meshStandardMaterial color="#1a1408" roughness={1} />
+          <meshStandardMaterial color="#2d1b08" roughness={1} />
         </mesh>
 
         {/* === PIER / DOCK === */}
@@ -323,25 +336,55 @@ function Monument({ id }: { id: string }) {
   if (id === "commons-tower") {
     return (
       <>
-        <mesh position={[0, 1.6, 0]}>
-          <boxGeometry args={[3.0, 0.3, 3.0]} />
-          <meshStandardMaterial color={stoneLight} roughness={1} />
+        {/* Low golf-green platform */}
+        <mesh position={[0, 1.25, 0]} scale={[1.25, 0.18, 0.85]}>
+          <cylinderGeometry args={[3.0, 3.4, 1, 12]} />
+          <meshStandardMaterial color="#8aa45a" roughness={1} />
         </mesh>
-        <mesh position={[0, 2.4, 0]}>
-          <boxGeometry args={[2.0, 1.5, 2.0]} />
-          <meshStandardMaterial color={stone} roughness={1} />
+        {/* Little gold mound in the background */}
+        <mesh position={[1.8, 1.8, -1.4]} scale={[1.0, 0.35, 0.8]}>
+          <sphereGeometry args={[1.05, 10, 6]} />
+          <meshStandardMaterial color="#d9b44a" roughness={1} />
         </mesh>
-        <mesh position={[0, 5.5, 0]}>
-          <boxGeometry args={[0.9, 5.5, 0.9]} />
-          <meshStandardMaterial color={stone} roughness={1} />
+        {/* Golf cart body */}
+        <mesh position={[-0.45, 2.0, 0.2]}>
+          <boxGeometry args={[2.2, 0.55, 1.25]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={0.8} />
         </mesh>
-        <mesh position={[0, 8.5, 0]}>
-          <boxGeometry args={[1.4, 0.3, 1.4]} />
-          <meshStandardMaterial color={stoneDark} roughness={1} />
+        <mesh position={[-0.45, 2.38, 0.25]}>
+          <boxGeometry args={[1.55, 0.22, 1.0]} />
+          <meshStandardMaterial color="#8f7440" roughness={1} />
         </mesh>
-        <mesh position={[0, 8.8, 0]}>
-          <boxGeometry args={[0.5, 0.6, 0.5]} />
-          <meshStandardMaterial color={stoneDark} roughness={1} />
+        {/* Roof posts and roof */}
+        {([-1.2, 0.3] as number[]).map((x) =>
+          ([-0.35, 0.85] as number[]).map((z) => (
+            <mesh key={`cart-post-${x}-${z}`} position={[x, 2.85, z]}>
+              <boxGeometry args={[0.08, 1.0, 0.08]} />
+              <meshStandardMaterial color="#8f7440" roughness={1} />
+            </mesh>
+          ))
+        )}
+        <mesh position={[-0.45, 3.4, 0.25]}>
+          <boxGeometry args={[2.15, 0.16, 1.45]} />
+          <meshStandardMaterial color="#e9ddb8" roughness={1} />
+        </mesh>
+        {/* Wheels */}
+        {([-1.2, 0.3] as number[]).map((x) =>
+          ([-0.47, 0.97] as number[]).map((z) => (
+            <mesh key={`cart-wheel-${x}-${z}`} position={[x, 1.68, z]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.28, 0.28, 0.14, 12]} />
+              <meshStandardMaterial color="#1b1b1b" roughness={0.8} />
+            </mesh>
+          ))
+        )}
+        {/* Tiny flag pin on mound */}
+        <mesh position={[1.8, 2.75, -1.4]}>
+          <cylinderGeometry args={[0.025, 0.025, 1.25, 6]} />
+          <meshStandardMaterial color="#f4f0dc" roughness={1} />
+        </mesh>
+        <mesh position={[2.05, 3.18, -1.4]}>
+          <boxGeometry args={[0.48, 0.26, 0.04]} />
+          <meshStandardMaterial color="#002147" roughness={1} />
         </mesh>
       </>
     );

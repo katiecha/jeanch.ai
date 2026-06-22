@@ -40,18 +40,22 @@ export default function Home() {
   const [mapFound, setMapFound] = useState(false);
 
   useEffect(() => {
-    const visited = getVisited();
-    setMapFound(isMapFound());
-    setNodes(
-      Object.values(GRAPH).map((n) => ({
-        id: n.id,
-        title: n.title,
-        route: n.route,
-        visited: visited.includes(n.id),
-        x: MAP_POSITIONS[n.id]?.x ?? 200,
-        y: MAP_POSITIONS[n.id]?.y ?? 160,
-      }))
-    );
+    const t = window.setTimeout(() => {
+      const visited = getVisited();
+      setMapFound(isMapFound());
+      setNodes(
+        Object.values(GRAPH).map((n) => ({
+          id: n.id,
+          title: n.title,
+          route: n.route,
+          visited: visited.includes(n.id),
+          x: MAP_POSITIONS[n.id]?.x ?? 200,
+          y: MAP_POSITIONS[n.id]?.y ?? 160,
+        }))
+      );
+    }, 0);
+
+    return () => window.clearTimeout(t);
   }, []);
 
   if (!mapFound) {

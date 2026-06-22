@@ -8,6 +8,9 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   title: "jeanch.ai",
   description: "A Father's Day adventure.",
+  icons: {
+    icon: "/icon",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

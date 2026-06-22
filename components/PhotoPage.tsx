@@ -25,11 +25,13 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
-    setMapUnlocked(isMapFound());
-    if (fadeIn) {
-      const t = setTimeout(() => setVisible(true), 200);
-      return () => clearTimeout(t);
-    }
+    const mapTimer = window.setTimeout(() => setMapUnlocked(isMapFound()), 0);
+    const fadeTimer = fadeIn ? window.setTimeout(() => setVisible(true), 200) : undefined;
+
+    return () => {
+      window.clearTimeout(mapTimer);
+      if (fadeTimer) window.clearTimeout(fadeTimer);
+    };
   }, [fadeIn]);
 
   // Close lightbox on Escape

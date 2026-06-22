@@ -74,9 +74,9 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
     // Camera: base follow position + mouse look offset
     // mouse.y: negative (up) = lower camera height = look toward horizon
     // mouse.y: positive (down) = raise camera = look down at water
-    const baseHeight = 14;
-    const baseBack = 12;
-    const camHeight = baseHeight - mouse.current.y * 14; // range: ~7–21
+    const baseHeight = 8.5;
+    const baseBack = 16;
+    const camHeight = baseHeight - mouse.current.y * 8; // range: ~4.5–12.5
     const camSide = mouse.current.x * 10;
 
     const offset = new THREE.Vector3(camSide, camHeight, baseBack).applyQuaternion(
@@ -85,11 +85,11 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
     camera.position.lerp(boat.position.clone().add(offset), 0.05);
 
     // Look slightly ahead of the boat, adjusted by mouse tilt
-    const lookAhead = new THREE.Vector3(0, 0, -4).applyQuaternion(boat.quaternion);
+    const lookAhead = new THREE.Vector3(0, 0, -10).applyQuaternion(boat.quaternion);
     const lookTarget = boat.position
       .clone()
       .add(lookAhead)
-      .add(new THREE.Vector3(0, mouse.current.y * -6, 0));
+      .add(new THREE.Vector3(0, 1.1 + mouse.current.y * -4, 0));
     camera.lookAt(lookTarget);
 
     // Island proximity
