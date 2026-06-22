@@ -100,18 +100,6 @@ export default function HappyFathersDay() {
                       fill="#002147"
                       fillOpacity={node.id === "happy-fathers-day" ? 0.28 : 0.82}
                     />
-                    <text
-                      x={pos.x}
-                      y={pos.y + 21}
-                      textAnchor="middle"
-                      fontSize={7}
-                      fontFamily="monospace"
-                      letterSpacing="0.08em"
-                      fill="#002147"
-                      fillOpacity={0.58}
-                    >
-                      {node.title.toUpperCase()}
-                    </text>
                   </g>
                 );
               })}

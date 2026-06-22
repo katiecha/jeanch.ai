@@ -17,10 +17,12 @@ interface IslandProps {
 
 export function GrassTuft({ position, phase = 0 }: { position: [number, number, number]; phase?: number }) {
   const ref = useRef<THREE.Group>(null);
+  const elapsedRef = useRef(0);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!ref.current) return;
-    const t = clock.getElapsedTime();
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
     ref.current.rotation.z = Math.sin(t * 1.3 + phase) * 0.14;
     ref.current.rotation.x = Math.cos(t * 0.9 + phase) * 0.07;
   });

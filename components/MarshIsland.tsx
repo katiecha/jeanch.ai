@@ -14,10 +14,12 @@ function MarshGrass({
   height?: number;
 }) {
   const ref = useRef<THREE.Group>(null);
+  const elapsedRef = useRef(0);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!ref.current) return;
-    const t = clock.getElapsedTime();
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
     ref.current.rotation.z = Math.sin(t * 1.1 + phase) * 0.18;
     ref.current.rotation.x = Math.cos(t * 0.75 + phase) * 0.09;
   });
@@ -42,10 +44,12 @@ function MarshGrass({
 
 function Cattail({ position, phase = 0 }: { position: [number, number, number]; phase?: number }) {
   const ref = useRef<THREE.Group>(null);
+  const elapsedRef = useRef(0);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!ref.current) return;
-    const t = clock.getElapsedTime();
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
     ref.current.rotation.z = Math.sin(t * 0.6 + phase) * 0.08;
   });
 
@@ -76,10 +80,12 @@ function Cattail({ position, phase = 0 }: { position: [number, number, number]; 
 
 function WhiteCrane({ position }: { position: [number, number, number] }) {
   const ref = useRef<THREE.Group>(null);
+  const elapsedRef = useRef(0);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!ref.current) return;
-    const t = clock.getElapsedTime();
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
     ref.current.position.x = position[0] + Math.sin(t * 0.35) * 1.1;
     ref.current.position.z = position[2] + Math.cos(t * 0.25) * 0.45;
     ref.current.rotation.y = Math.sin(t * 0.35) * 0.28;

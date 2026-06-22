@@ -13,9 +13,21 @@ const SPEED = 24;
 const TURN_SPEED = 3.0;
 const DRAG = 0.94;
 const DETECTION_RADIUS = 7;
+const BOAT_WATER_CLEARANCE = 0.58;
+const TRUE_WIND = new THREE.Vector3(-0.4, 0, -1).normalize().multiplyScalar(9);
+
+function getOceanHeight(x: number, z: number, t: number) {
+  const longWave = Math.sin(x * 0.13 + t * 0.42) * 0.34;
+  const crossWave = Math.cos((x + z) * 0.18 - t * 0.36) * 0.22;
+  const chop = Math.sin(z * 0.62 + t * 1.15) * 0.06;
+  return longWave + crossWave + chop;
+}
 
 export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const mainSailRef = useRef<THREE.Mesh>(null);
+  const jibSailRef = useRef<THREE.Mesh>(null);
+  const elapsedRef = useRef(0);
   const { camera } = useThree();
   const keys = useRef<Set<string>>(new Set());
   const velocity = useRef(0);
@@ -46,6 +58,8 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
     const boat = groupRef.current;
     if (!boat) return;
 
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
     const k = keys.current;
 
     if (k.has("a") || k.has("arrowleft")) boat.rotation.y += TURN_SPEED * delta;
@@ -61,7 +75,31 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
 
     const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(boat.quaternion);
     boat.position.addScaledVector(dir, velocity.current * delta);
-    boat.position.y = Math.sin(Date.now() * 0.0015) * 0.08;
+    const waterHeight = getOceanHeight(boat.position.x, boat.position.z, t);
+    boat.position.y = waterHeight + BOAT_WATER_CLEARANCE + Math.sin(t * 1.4) * 0.035;
+
+    const boatMotion = dir.clone().multiplyScalar(velocity.current);
+    const apparentWind = TRUE_WIND.clone().sub(boatMotion);
+    const localWind = apparentWind.clone().applyQuaternion(boat.quaternion.clone().invert());
+    const sailSide = THREE.MathUtils.clamp(localWind.x / 8, -1, 1);
+    const aftWindEase = THREE.MathUtils.smoothstep(localWind.z, -5, 8);
+    const mainTarget = sailSide * THREE.MathUtils.lerp(0.24, 0.68, aftWindEase);
+    const jibTarget = sailSide * THREE.MathUtils.lerp(0.32, 0.78, aftWindEase);
+
+    if (mainSailRef.current) {
+      mainSailRef.current.rotation.y = THREE.MathUtils.lerp(
+        mainSailRef.current.rotation.y,
+        mainTarget,
+        0.08
+      );
+    }
+    if (jibSailRef.current) {
+      jibSailRef.current.rotation.y = THREE.MathUtils.lerp(
+        jibSailRef.current.rotation.y,
+        jibTarget,
+        0.1
+      );
+    }
 
     if (k.has("a") || k.has("arrowleft")) {
       boat.rotation.z = THREE.MathUtils.lerp(boat.rotation.z, 0.08, 0.1);
@@ -132,12 +170,12 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
         <meshStandardMaterial color="#6a4418" roughness={0.7} />
       </mesh>
       {/* Main sail */}
-      <mesh position={[-0.6, 2.5, -0.3]} rotation={[0, 0.15, 0]}>
+      <mesh ref={mainSailRef} position={[-0.6, 2.5, -0.3]} rotation={[0, 0.15, 0]}>
         <planeGeometry args={[1.8, 4]} />
         <meshStandardMaterial color="#f8f4ee" side={THREE.DoubleSide} roughness={0.8} />
       </mesh>
       {/* Jib sail */}
-      <mesh position={[0.1, 1.8, -1.4]} rotation={[0, -0.3, 0]}>
+      <mesh ref={jibSailRef} position={[0.1, 1.8, -1.4]} rotation={[0, -0.3, 0]}>
         <planeGeometry args={[1.2, 2.5]} />
         <meshStandardMaterial color="#f8f4ee" side={THREE.DoubleSide} roughness={0.8} />
       </mesh>

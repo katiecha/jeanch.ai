@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# jeanch.ai
 
-## Getting Started
+`jeanch.ai` is a Father's Day present web app: a small, personal Bald Head Island-inspired sailing experience that leads into photo galleries. The site is built as a lightweight Next.js app with a 3D ocean scene, discoverable islands, and simple graph-based progression.
 
-First, run the development server:
+## Overview
+
+The main experience lives at `/happy-fathers-day`. The user sails a small boat through a stylized ocean and approaches islands to enter their photo pages. Each island is represented by a simple 3D landmark, such as a ferry dock, Old Baldy lighthouse, purple beach house, marsh, shoal, or golf cart scene.
+
+The app is intentionally static and personal:
+
+- no database
+- no auth
+- no API routes
+- local discovery state stored in `localStorage`
+- photos served from `public/photos/`
+
+## 3D Scene
+
+The 3D layer is built with:
+
+- Three.js for geometry, materials, lights, and scene rendering
+- React Three Fiber for React-based scene composition
+- Drei utilities where helpful
+- `@react-three/postprocessing` for subtle visual polish
+
+Key scene files:
+
+- `components/SailboatScene.tsx` sets up the canvas, lighting, ocean, islands, and postprocessing.
+- `components/Sailboat.tsx` handles boat movement, camera follow behavior, keyboard controls, and mobile touch control events.
+- `components/Ocean.tsx` animates the water mesh.
+- `components/Island.tsx` renders each island's 3D object based on its graph node id.
+- `components/MarshIsland.tsx` renders the marsh geometry, reeds, cattails, stream, and crane.
+
+## Graph Architecture
+
+The island structure is driven by `lib/graph.ts`. Each graph node defines:
+
+- `id`
+- display `title`
+- route
+- description
+- unlock relationships
+- world position in the 3D scene
+- map color
+
+`ISLAND_NODES` filters the graph down to the nodes that should appear in the sailing scene. The entry page, `happy-fathers-day`, exists in the graph as the root but is not rendered as a 3D island.
+
+Discovery state lives in `lib/discovery.ts` and is stored in the browser under:
+
+- `visited-nodes`
+- `found-map`
+
+The map views render the graph as simple connected nodes. The map labels currently come from `GRAPH` titles, so renaming nodes should start in `lib/graph.ts` and then be checked against page titles and route names.
+
+## Current Island Objects
+
+Current graph names and their 3D representations:
+
+| Graph title | Route | 3D object |
+|---|---|---|
+| Ferry Dock | `/ferry-dock` | Wood dock and ferry boat |
+| Old Baldy | `/old-baldy` | Old Baldy lighthouse |
+| Old Boat House | `/old-boat-house` | Purple raised beach house |
+| Marsh | `/marsh-island` | Marsh banks, stream, reeds, cattails, and crane |
+| Shoals Club | `/shoals-club` | Sandy shoal/dune with grass |
+| Commons Tower | `/commons-tower` | Purple golf cart, gold mound, and red flag |
+
+Some graph names are placeholders and may not match the final official island mapping yet.
+
+## Running Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful checks:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```

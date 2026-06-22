@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // Cache optimized images for 30 days in the browser
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    qualities: [75, 82, 88],
     // Include the thumbnail size so Next.js pre-generates it
     imageSizes: [16, 32, 48, 64, 96, 128, 148, 256, 384],
   },

@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Sky } from "@react-three/drei";
 import { Bloom, ChromaticAberration, EffectComposer, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { Vector2 } from "three";
@@ -49,7 +48,6 @@ export function SailboatScene() {
         <color attach="background" args={["#7BAFD4"]} />
         <ambientLight intensity={2.0} />
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
-        <Sky sunPosition={[80, 55, -40]} turbidity={1.4} rayleigh={3.2} mieCoefficient={0.002} mieDirectionalG={0.75} />
         <Ocean />
         <Sailboat onNearIsland={setNearIslandId} islandPositions={islandPositions} />
         {ISLAND_NODES.map((node) => (

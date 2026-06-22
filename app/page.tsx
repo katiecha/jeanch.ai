@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GRAPH } from "@/lib/graph";
-import { getVisited } from "@/lib/discovery";
 
 interface NodeMeta {
   id: string;
-  title: string;
   route: string;
-  visited: boolean;
   x: number;
   y: number;
 }
@@ -39,34 +35,12 @@ const EDGES: Array<[string, string]> = [
 
 export default function Home() {
   const router = useRouter();
-  const [nodes, setNodes] = useState<NodeMeta[]>(
-    Object.values(GRAPH).map((n) => ({
-      id: n.id,
-      title: n.title,
-      route: n.route,
-      visited: false,
-      x: MAP_POSITIONS[n.id]?.x ?? 200,
-      y: MAP_POSITIONS[n.id]?.y ?? 160,
-    }))
-  );
-
-  useEffect(() => {
-    const t = window.setTimeout(() => {
-      const visited = getVisited();
-      setNodes(
-        Object.values(GRAPH).map((n) => ({
-          id: n.id,
-          title: n.title,
-          route: n.route,
-          visited: visited.includes(n.id),
-          x: MAP_POSITIONS[n.id]?.x ?? 200,
-          y: MAP_POSITIONS[n.id]?.y ?? 160,
-        }))
-      );
-    }, 0);
-
-    return () => window.clearTimeout(t);
-  }, []);
+  const nodes: NodeMeta[] = Object.values(GRAPH).map((n) => ({
+    id: n.id,
+    route: n.route,
+    x: MAP_POSITIONS[n.id]?.x ?? 200,
+    y: MAP_POSITIONS[n.id]?.y ?? 160,
+  }));
 
   return (
     <main className="min-h-screen bg-[#e8eff7] flex flex-col items-center justify-center px-8 py-16">
@@ -92,7 +66,7 @@ export default function Home() {
               x1={nA.x} y1={nA.y} x2={nB.x} y2={nB.y}
               stroke="#002147"
               strokeWidth={0.75}
-              strokeOpacity={nA.visited && nB.visited ? 0.25 : 0.06}
+              strokeOpacity={0.22}
             />
           );
         })}
@@ -101,29 +75,18 @@ export default function Home() {
         {nodes.map((n) => (
           <g
             key={n.id}
-            onClick={n.visited ? () => router.push(n.route) : undefined}
-            style={{ cursor: n.visited ? "pointer" : "default" }}
+            onClick={() => router.push(n.route)}
+            style={{ cursor: "pointer" }}
           >
             <rect
               x={n.x - 7} y={n.y - 7}
               width={14} height={14}
-              fill={n.visited ? "#002147" : "none"}
+              fill="#002147"
+              fillOpacity={n.id === "happy-fathers-day" ? 0.32 : 0.9}
               stroke="#002147"
               strokeWidth={0.75}
-              strokeOpacity={n.visited ? 1 : 0.2}
+              strokeOpacity={1}
             />
-            <text
-              x={n.x}
-              y={n.y + 24}
-              textAnchor="middle"
-              fontSize={7.5}
-              fontFamily="monospace"
-              letterSpacing="0.08em"
-              fill="#002147"
-              fillOpacity={n.visited ? 0.6 : 0.18}
-            >
-              {n.title.toUpperCase()}
-            </text>
           </g>
         ))}
       </svg>
