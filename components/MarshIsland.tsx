@@ -134,13 +134,13 @@ export function MarshIsland({ position }: { position: [number, number, number] }
   return (
     <group position={position}>
       {/* Stream between the two marsh banks */}
-      <mesh position={[0.6, 0.08, 0]} scale={[0.55, 1, 2.3]}>
-        <cylinderGeometry args={[2.0, 2.4, 0.12, 12]} />
-        <meshStandardMaterial color={water} roughness={0.95} transparent opacity={0.78} />
+      <mesh position={[0.75, 0.32, 0.25]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[2.05, 6.6, 1, 1]} />
+        <meshStandardMaterial color={water} roughness={0.85} side={THREE.DoubleSide} />
       </mesh>
-      <mesh position={[0.55, 0.18, 0]} scale={[0.34, 1, 2.0]}>
-        <cylinderGeometry args={[1.7, 1.9, 0.08, 12]} />
-        <meshStandardMaterial color="#8ee0ed" roughness={1} transparent opacity={0.5} />
+      <mesh position={[0.76, 0.335, 0.25]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[1.22, 5.65, 1, 1]} />
+        <meshStandardMaterial color="#9ce7ef" roughness={1} side={THREE.DoubleSide} />
       </mesh>
 
       {/* === BANK 1 — larger, low mudflat with marsh cap === */}
@@ -152,7 +152,7 @@ export function MarshIsland({ position }: { position: [number, number, number] }
         <cylinderGeometry args={[3.0, 3.4, 0.25, 10]} />
         <meshStandardMaterial color={marsh} roughness={1} />
       </mesh>
-      <mesh position={[-0.55, 0.2, 0]} scale={[0.42, 1, 1.65]}>
+      <mesh position={[-0.82, 0.14, 0]} scale={[0.36, 1, 1.58]}>
         <cylinderGeometry args={[2.1, 2.35, 0.22, 10]} />
         <meshStandardMaterial color={wetMud} roughness={1} />
       </mesh>
@@ -166,7 +166,7 @@ export function MarshIsland({ position }: { position: [number, number, number] }
         <cylinderGeometry args={[2.8, 3.1, 0.25, 10]} />
         <meshStandardMaterial color={marshLight} roughness={1} />
       </mesh>
-      <mesh position={[2.35, 0.17, 0.45]} scale={[0.38, 1, 1.25]}>
+      <mesh position={[2.62, 0.14, 0.45]} scale={[0.32, 1, 1.18]}>
         <cylinderGeometry args={[1.8, 2.0, 0.18, 10]} />
         <meshStandardMaterial color={wetMud} roughness={1} />
       </mesh>

@@ -46,9 +46,10 @@ export function SailboatScene() {
   return (
     <div className="w-full h-full relative">
       <Canvas camera={{ position: [0, 7.5, 26], fov: 62 }} gl={{ antialias: true }}>
+        <color attach="background" args={["#7BAFD4"]} />
         <ambientLight intensity={2.0} />
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
-        <Sky sunPosition={[80, 60, -40]} turbidity={2} rayleigh={2} mieCoefficient={0.003} mieDirectionalG={0.8} />
+        <Sky sunPosition={[80, 55, -40]} turbidity={1.4} rayleigh={3.2} mieCoefficient={0.002} mieDirectionalG={0.75} />
         <Ocean />
         <Sailboat onNearIsland={setNearIslandId} islandPositions={islandPositions} />
         {ISLAND_NODES.map((node) => (
@@ -72,7 +73,6 @@ export function SailboatScene() {
           />
         </EffectComposer>
       </Canvas>
-
     </div>
   );
 }
