@@ -79,7 +79,7 @@ export function Ocean() {
             color = mix(color, uHighlightColor, glint);
             color = mix(color, uFoamColor, foam);
 
-            gl_FragColor = vec4(color, 0.94);
+            gl_FragColor = vec4(color, 0.72);
           }
         `}
       />

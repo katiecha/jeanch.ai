@@ -45,8 +45,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#e8eff7] flex flex-col items-center justify-center px-8 py-16">
       {/* Micro-label */}
-      <p className="text-[7px] font-mono tracking-[0.8em] uppercase text-[#002147]/25 mb-12">
-        Bald Head Island
+      <p className="text-[9px] font-mono tracking-[0.8em] uppercase text-[#002147]/70 mb-12">
+        Happy Father&apos;s Day
       </p>
 
       {/* Graph — squares not circles, very sparse */}
@@ -65,8 +65,8 @@ export default function Home() {
               key={`${a}-${b}`}
               x1={nA.x} y1={nA.y} x2={nB.x} y2={nB.y}
               stroke="#002147"
-              strokeWidth={0.75}
-              strokeOpacity={0.22}
+              strokeWidth={1.0}
+              strokeOpacity={0.55}
             />
           );
         })}
@@ -82,9 +82,9 @@ export default function Home() {
               x={n.x - 7} y={n.y - 7}
               width={14} height={14}
               fill="#002147"
-              fillOpacity={n.id === "happy-fathers-day" ? 0.32 : 0.9}
+              fillOpacity={n.id === "happy-fathers-day" ? 0.45 : 1.0}
               stroke="#002147"
-              strokeWidth={0.75}
+              strokeWidth={1.0}
               strokeOpacity={1}
             />
           </g>
@@ -94,7 +94,7 @@ export default function Home() {
       {/* Return link — only UI element besides the graph */}
       <Link
         href="/happy-fathers-day"
-        className="mt-16 text-[7px] font-mono tracking-[0.7em] uppercase text-[#002147]/25 hover:text-[#002147]/60 transition-colors"
+        className="mt-16 text-[9px] font-mono tracking-[0.7em] uppercase text-[#002147]/60 hover:text-[#002147] transition-colors"
       >
         Return to sea
       </Link>

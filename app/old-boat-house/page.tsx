@@ -12,5 +12,5 @@ const PHOTOS = [
 
 export default function OldBoatHouse() {
   useEffect(() => { markVisited("old-boat-house"); }, []);
-  return <PhotoPage title="Old Boat House" photos={PHOTOS} />;
+  return <PhotoPage title="Aunty Karon's House" photos={PHOTOS} />;
 }

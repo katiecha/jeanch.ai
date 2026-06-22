@@ -12,5 +12,5 @@ const PHOTOS = [
 
 export default function CommonsT() {
   useEffect(() => { markVisited("commons-tower"); }, []);
-  return <PhotoPage title="Commons Tower" photos={PHOTOS} fadeIn />;
+  return <PhotoPage title="Bald Head Island Club" photos={PHOTOS} fadeIn />;
 }

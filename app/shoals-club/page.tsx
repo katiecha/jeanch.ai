@@ -12,5 +12,5 @@ const PHOTOS = [
 
 export default function ShoalsClub() {
   useEffect(() => { markVisited("shoals-club"); }, []);
-  return <PhotoPage title="Shoals Club" photos={PHOTOS} />;
+  return <PhotoPage title="SHOAL" photos={PHOTOS} />;
 }

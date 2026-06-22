@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -48,7 +48,10 @@ function getOceanHeight(x: number, z: number, t: number) {
   return longWave + crossWave + chop;
 }
 
-export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
+export type SailboatHandle = { reset: () => void };
+
+export const Sailboat = forwardRef<SailboatHandle, SailboatProps>(
+  function Sailboat({ onNearIsland, islandPositions }, ref) {
   const groupRef = useRef<THREE.Group>(null);
   const mainSailRef = useRef<THREE.Mesh>(null);
   const jibSailRef = useRef<THREE.Mesh>(null);
@@ -79,6 +82,15 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
     window.addEventListener("pointermove", move);
     return () => window.removeEventListener("pointermove", move);
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    reset() {
+      if (!groupRef.current) return;
+      groupRef.current.position.set(0, BOAT_WATER_CLEARANCE, 0);
+      groupRef.current.rotation.set(0, 0, 0);
+      velocity.current = 0;
+    },
+  }), []);
 
   useFrame((_, delta) => {
     const boat = groupRef.current;
@@ -224,4 +236,5 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
       </mesh>
     </group>
   );
-}
+  }
+);

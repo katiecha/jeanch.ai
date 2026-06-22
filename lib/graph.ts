@@ -39,7 +39,7 @@ export const GRAPH: Record<string, GraphNode> = {
   },
   "old-boat-house": {
     id: "old-boat-house",
-    title: "Old Boat House",
+    title: "Aunty Karon's House",
     route: "/old-boat-house",
     description: "Est. 1903.",
     unlocks: ["shoals-club"],
@@ -57,7 +57,7 @@ export const GRAPH: Record<string, GraphNode> = {
   },
   "shoals-club": {
     id: "shoals-club",
-    title: "Shoals Club",
+    title: "SHOAL",
     route: "/shoals-club",
     description: "Where the island gathers.",
     unlocks: ["commons-tower"],
@@ -67,7 +67,7 @@ export const GRAPH: Record<string, GraphNode> = {
   },
   "commons-tower": {
     id: "commons-tower",
-    title: "Commons Tower",
+    title: "Bald Head Island Club",
     route: "/commons-tower",
     description: "The highest point. The final view.",
     unlocks: [],

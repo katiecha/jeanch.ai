@@ -100,18 +100,20 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
       {/* Lightbox — click anywhere to close, no X */}
       {lightbox && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer relative"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer"
           onClick={() => setLightbox(null)}
         >
-          <Image
-            src={lightbox}
-            alt=""
-            fill
-            className="object-contain"
-            sizes="92vw"
-            quality={88}
-            priority
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={lightbox}
+              alt=""
+              fill
+              className="object-contain"
+              sizes="92vw"
+              quality={88}
+              priority
+            />
+          </div>
         </div>
       )}
     </main>

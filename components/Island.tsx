@@ -8,6 +8,7 @@ import { MarshIsland } from "./MarshIsland";
 
 interface IslandProps {
   id: string;
+  title: string;
   route: string;
   position: [number, number, number];
   isNear: boolean;
@@ -141,7 +142,18 @@ function OldBaldyMonument() {
 
 function Monument({ id }: { id: string }) {
   if (id === "old-baldy") {
-    return <OldBaldyMonument />;
+    return (
+      <>
+        <OldBaldyMonument />
+        <GrassTuft position={[2.8,  1.45, 1.5]}  phase={0.0} />
+        <GrassTuft position={[-2.5, 1.45, 2.2]}  phase={1.4} />
+        <GrassTuft position={[3.2,  1.45, -0.8]} phase={2.3} />
+        <GrassTuft position={[-2.0, 1.45, -3.0]} phase={0.9} />
+        <GrassTuft position={[1.5,  1.45, 3.5]}  phase={1.8} />
+        <GrassTuft position={[-3.5, 1.45, 0.8]}  phase={2.7} />
+        <GrassTuft position={[3.5,  1.45, -2.5]} phase={0.4} />
+      </>
+    );
   }
 
   if (id === "ferry-dock") {
@@ -233,6 +245,13 @@ function Monument({ id }: { id: string }) {
           <boxGeometry args={[0.9, 0.06, 0.06]} />
           <meshStandardMaterial color="#c8c8c8" roughness={0.4} metalness={0.3} />
         </mesh>
+        <GrassTuft position={[-2.5, 1.45, -1.5]} phase={0.5} />
+        <GrassTuft position={[-1.8, 1.45, 2.2]}  phase={1.3} />
+        <GrassTuft position={[-3.2, 1.45, 0.8]}  phase={2.1} />
+        <GrassTuft position={[0.8,  1.45, 3.5]}  phase={0.8} />
+        <GrassTuft position={[1.5,  1.45, -3.0]} phase={1.7} />
+        <GrassTuft position={[-3.5, 1.45, -0.5]} phase={2.5} />
+        <GrassTuft position={[-2.0, 1.45, -3.2]} phase={3.2} />
       </>
     );
   }
@@ -400,6 +419,12 @@ function Monument({ id }: { id: string }) {
           <sphereGeometry args={[0.64, 8, 6]} />
           <meshStandardMaterial color="#7e9650" roughness={1} />
         </mesh>
+        <GrassTuft position={[2.8,  1.45, -2.5]} phase={0.2} />
+        <GrassTuft position={[-3.0, 1.45, -2.0]} phase={1.1} />
+        <GrassTuft position={[3.5,  1.45, 0.5]}  phase={2.0} />
+        <GrassTuft position={[-3.5, 1.45, 1.0]}  phase={0.7} />
+        <GrassTuft position={[2.5,  1.45, 2.8]}  phase={1.6} />
+        <GrassTuft position={[-2.8, 1.45, 2.5]}  phase={2.4} />
       </>
     );
   }
@@ -437,9 +462,16 @@ function Monument({ id }: { id: string }) {
 
   if (id === "marsh-island") {
     return (
-      <group position={[0, 1.55, 0]} scale={[0.46, 0.46, 0.46]}>
-        <MarshIsland position={[0, 0.35, 0]} />
-      </group>
+      <>
+        <group position={[0, 1.55, 0]} scale={[0.46, 0.46, 0.46]}>
+          <MarshIsland position={[0, 0.35, 0]} />
+        </group>
+        <GrassTuft position={[3.5,  1.45, -2.0]} phase={0.3} />
+        <GrassTuft position={[-3.8, 1.45, 1.5]}  phase={1.2} />
+        <GrassTuft position={[4.0,  1.45, 1.0]}  phase={2.1} />
+        <GrassTuft position={[-2.5, 1.45, -3.5]} phase={0.8} />
+        <GrassTuft position={[2.0,  1.45, 3.5]}  phase={1.9} />
+      </>
     );
   }
 
@@ -493,6 +525,12 @@ function Monument({ id }: { id: string }) {
           <meshStandardMaterial color="#f4f0dc" roughness={1} />
         </mesh>
         <FlappingFlag position={[2.05, 3.18, -1.4]} />
+        <GrassTuft position={[3.5,  1.45, 2.5]}  phase={0.6} />
+        <GrassTuft position={[-3.5, 1.45, -1.8]} phase={1.5} />
+        <GrassTuft position={[4.2,  1.45, -0.5]} phase={2.2} />
+        <GrassTuft position={[-4.2, 1.45, 1.0]}  phase={0.3} />
+        <GrassTuft position={[2.0,  1.45, -3.5]} phase={1.9} />
+        <GrassTuft position={[-2.0, 1.45, 3.5]}  phase={2.8} />
       </>
     );
   }
@@ -500,23 +538,28 @@ function Monument({ id }: { id: string }) {
   return null;
 }
 
-export function Island({ id, route, position, isNear, isUnlocked, onDiscover }: IslandProps) {
+export function Island({ id, title, route, position, isNear, isUnlocked, onDiscover }: IslandProps) {
   return (
     <group
       position={position}
       onClick={isNear && isUnlocked ? () => onDiscover(id, route) : undefined}
     >
       <mesh receiveShadow>
-        <cylinderGeometry args={[4, 4.5, 1.2, 20]} />
+        <cylinderGeometry args={[5.0, 5.5, 1.2, 20]} />
         <meshStandardMaterial color="#ddc888" roughness={1} />
       </mesh>
       <mesh position={[0, 1, 0]}>
-        <cylinderGeometry args={[3.5, 4, 0.5, 20]} />
+        <cylinderGeometry args={[4.5, 5.0, 0.5, 20]} />
         <meshStandardMaterial color="#f0e0a8" roughness={1} />
       </mesh>
 
       <Monument id={id} />
 
+      <Html position={[0, 13, 0]} center distanceFactor={22}>
+        <p className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/90 whitespace-nowrap pointer-events-none drop-shadow">
+          {title}
+        </p>
+      </Html>
       {isNear && isUnlocked && (
         <Html position={[0, 2, 0]} center distanceFactor={20}>
           <button
