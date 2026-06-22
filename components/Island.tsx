@@ -102,7 +102,6 @@ function OldBaldyMonument() {
 }
 
 function Monument({ id }: { id: string }) {
-  const stone = "#e0d8c4";
   const stoneDark = "#c8bea8";
   const stoneLight = "#f0eadc";
 
@@ -284,19 +283,92 @@ function Monument({ id }: { id: string }) {
   }
 
   if (id === "old-boat-house") {
+    const housePurple = "#5670a7";
+    const houseDark = "#2f4f7d";
+    const trim = "#f4f0dc";
+    const roof = "#e7dfc8";
+
     return (
       <>
-        <mesh position={[0, 4.5, 0]}>
-          <boxGeometry args={[1.0, 7.0, 1.0]} />
-          <meshStandardMaterial color={stone} roughness={1} />
+        {/* Raised beach house body */}
+        <mesh position={[0, 3.3, 0]}>
+          <boxGeometry args={[3.4, 2.0, 2.2]} />
+          <meshStandardMaterial color={housePurple} roughness={0.9} />
         </mesh>
-        <mesh position={[0.8, 6.5, 0]}>
-          <boxGeometry args={[2.6, 0.25, 0.5]} />
-          <meshStandardMaterial color={stoneDark} roughness={1} />
+        {/* Deep lower band */}
+        <mesh position={[0, 2.55, 1.14]}>
+          <boxGeometry args={[3.45, 0.34, 0.08]} />
+          <meshStandardMaterial color={houseDark} roughness={0.9} />
         </mesh>
-        <mesh position={[0, 1.8, 0]}>
-          <boxGeometry args={[2.5, 0.35, 2.5]} />
-          <meshStandardMaterial color={stoneLight} roughness={1} />
+        {/* Stilts */}
+        {([-1.35, 1.35] as number[]).map((x) =>
+          ([-0.8, 0.8] as number[]).map((z) => (
+            <mesh key={`house-stilt-${x}-${z}`} position={[x, 1.65, z]}>
+              <boxGeometry args={[0.14, 2.1, 0.14]} />
+              <meshStandardMaterial color={trim} roughness={1} />
+            </mesh>
+          ))
+        )}
+        {/* Front porch */}
+        <mesh position={[0, 2.45, 1.65]}>
+          <boxGeometry args={[3.7, 0.16, 0.72]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        {([-1.55, -0.55, 0.55, 1.55] as number[]).map((x) => (
+          <mesh key={`porch-post-${x}`} position={[x, 3.35, 1.93]}>
+            <boxGeometry args={[0.09, 1.6, 0.09]} />
+            <meshStandardMaterial color={trim} roughness={1} />
+          </mesh>
+        ))}
+        <mesh position={[0, 3.85, 1.95]}>
+          <boxGeometry args={[3.8, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        <mesh position={[0, 3.08, 1.96]}>
+          <boxGeometry args={[3.8, 0.08, 0.08]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        {/* Windows and door */}
+        {([-0.95, 0.95] as number[]).map((x) => (
+          <mesh key={`beach-window-${x}`} position={[x, 3.35, 1.12]}>
+            <boxGeometry args={[0.62, 0.62, 0.08]} />
+            <meshStandardMaterial color="#dceaf0" roughness={0.5} />
+          </mesh>
+        ))}
+        <mesh position={[0, 3.2, 1.13]}>
+          <boxGeometry args={[0.46, 1.15, 0.09]} />
+          <meshStandardMaterial color={trim} roughness={0.9} />
+        </mesh>
+        {/* Round upper window */}
+        <mesh position={[0, 4.42, 1.13]}>
+          <cylinderGeometry args={[0.28, 0.28, 0.09, 18]} />
+          <meshStandardMaterial color={trim} roughness={0.8} />
+        </mesh>
+        <mesh position={[0, 4.43, 1.19]}>
+          <cylinderGeometry args={[0.18, 0.18, 0.06, 18]} />
+          <meshStandardMaterial color="#2f4f7d" roughness={0.7} />
+        </mesh>
+        {/* Gable roof */}
+        <mesh position={[0, 4.85, 0.48]} rotation={[0.5, 0, 0]}>
+          <boxGeometry args={[4.0, 0.16, 1.7]} />
+          <meshStandardMaterial color={roof} roughness={1} />
+        </mesh>
+        <mesh position={[0, 4.85, -0.48]} rotation={[-0.5, 0, 0]}>
+          <boxGeometry args={[4.0, 0.16, 1.7]} />
+          <meshStandardMaterial color={roof} roughness={1} />
+        </mesh>
+        <mesh position={[0, 5.22, 0]}>
+          <boxGeometry args={[4.05, 0.13, 0.18]} />
+          <meshStandardMaterial color={trim} roughness={1} />
+        </mesh>
+        {/* Simple dune shrubs under the house */}
+        <mesh position={[-1.55, 1.58, 1.35]} scale={[1, 0.32, 0.75]}>
+          <sphereGeometry args={[0.72, 8, 6]} />
+          <meshStandardMaterial color="#6f8746" roughness={1} />
+        </mesh>
+        <mesh position={[1.35, 1.55, 1.25]} scale={[1, 0.3, 0.75]}>
+          <sphereGeometry args={[0.64, 8, 6]} />
+          <meshStandardMaterial color="#7e9650" roughness={1} />
         </mesh>
       </>
     );
@@ -444,7 +516,7 @@ function Monument({ id }: { id: string }) {
         </mesh>
         <mesh position={[2.05, 3.18, -1.4]}>
           <boxGeometry args={[0.48, 0.26, 0.04]} />
-          <meshStandardMaterial color="#002147" roughness={1} />
+          <meshStandardMaterial color="#c0392b" roughness={1} />
         </mesh>
       </>
     );

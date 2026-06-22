@@ -61,7 +61,7 @@ export const GRAPH: Record<string, GraphNode> = {
     route: "/shoals-club",
     description: "Where the island gathers.",
     unlocks: ["commons-tower"],
-    requires: ["ferry-dock", "old-baldy", "old-boat-house"],
+    requires: ["ferry-dock", "old-baldy", "old-boat-house", "bald-head-island-club"],
     worldPosition: { x: 0, z: 20 },
     color: "#fbcfe8",
   },
@@ -77,6 +77,12 @@ export const GRAPH: Record<string, GraphNode> = {
   },
 };
 
-export const MAP_UNLOCK_REQUIRES = ["ferry-dock", "old-baldy", "old-boat-house", "shoals-club"];
+export const MAP_UNLOCK_REQUIRES = [
+  "ferry-dock",
+  "old-baldy",
+  "old-boat-house",
+  "bald-head-island-club",
+  "shoals-club",
+];
 
 export const ISLAND_NODES = Object.values(GRAPH).filter((n) => n.id !== "happy-fathers-day");
