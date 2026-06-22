@@ -57,7 +57,7 @@ export function SailboatScene() {
 
   return (
     <div className="w-full h-full relative">
-      <Canvas camera={{ position: [0, 14, 20], fov: 55 }} gl={{ antialias: true }}>
+      <Canvas camera={{ position: [0, 9, 24], fov: 60 }} gl={{ antialias: true }}>
         <ambientLight intensity={2.0} />
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
         <Sky sunPosition={[80, 60, -40]} turbidity={2} rayleigh={2} mieCoefficient={0.003} mieDirectionalG={0.8} />
