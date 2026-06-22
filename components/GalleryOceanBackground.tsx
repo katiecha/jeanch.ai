@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Ocean } from "./Ocean";
+import { FishSchool } from "./FishSchool";
 
 function GalleryCamera() {
   const { camera } = useThree();
@@ -24,6 +25,7 @@ export function GalleryOceanBackground() {
         <directionalLight position={[50, 80, 30]} intensity={1.2} color="#fff8f0" />
         <GalleryCamera />
         <Ocean />
+        <FishSchool count={40} spread={50} centerZ={-12} />
       </Canvas>
     </div>
   );

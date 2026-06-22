@@ -555,11 +555,13 @@ export function Island({ id, title, route, position, isNear, isUnlocked, onDisco
 
       <Monument id={id} />
 
-      <Html position={[0, 13, 0]} center distanceFactor={22}>
-        <p className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/90 whitespace-nowrap pointer-events-none drop-shadow">
-          {title}
-        </p>
-      </Html>
+      {id !== "commons-tower" && (
+        <Html position={[0, 13, 0]} center distanceFactor={22} style={{ pointerEvents: 'none' }}>
+          <p className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/90 whitespace-nowrap pointer-events-none drop-shadow">
+            {title}
+          </p>
+        </Html>
+      )}
       {isNear && isUnlocked && (
         <Html position={[0, 2, 0]} center distanceFactor={20}>
           <button

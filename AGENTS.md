@@ -10,7 +10,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Project Overview
 
-A Father's Day gift website themed around Bald Head Island, NC. The experience is a 3D ocean exploration game where the user sails a boat to discover islands, each of which holds a photo gallery. Built for one recipient (Dad / "Captain Chai") — prioritise emotional resonance and visual craft over feature completeness.
+A Father's Day gift website themed around Bald Head Island, NC. The experience is a 3D ocean exploration game where the user sails a boat to discover islands, each holding a photo gallery. Built for one recipient (Dad / "Captain Chai").
 
 ---
 
@@ -28,106 +28,33 @@ A Father's Day gift website themed around Bald Head Island, NC. The experience i
 - TypeScript (strict mode)
 - Tailwind CSS v4
 - React Three Fiber v9 + Three.js + Drei
-- No database, no auth, no API routes — this is a static gift site
+- No database, no auth, no API routes — static gift site
 
 ### 3D Layer
 
-**Three.js** is the WebGL engine — geometry, materials, lights, and the scene graph.
+**React Three Fiber (R3F)** wraps Three.js in React. The `<Canvas>` in `SailboatScene.tsx` is the scene entry point.
 
-**React Three Fiber (R3F)** wraps Three.js in React. Instead of imperative `new THREE.Mesh()` calls you write JSX: `<mesh>`, `<boxGeometry>`, `<meshStandardMaterial>`. The `<Canvas>` in `SailboatScene.tsx` is the scene entry point.
+**Drei** utilities used: `<Html>` (anchors DOM to 3D world position).
 
-**Drei** is a utility belt for R3F. Used components:
-- `<Sky>` — procedural atmospheric sky shader (sun position, turbidity, rayleigh)
-- `<Html>` — anchors a DOM element (the Enter button) to a 3D world position
+**`useFrame()`** fires every animation frame. Used in:
+- `Ocean.tsx` — sine-wave water vertex animation
+- `Sailboat.tsx` — input, movement, camera, island proximity
+- `FishSchool.tsx` — fish swimming animation
+- `Island.tsx` (GrassTuft) — grass swaying
 
-**`useFrame()`** is the render loop hook — fires every animation frame. Used in:
-- `Ocean.tsx` — mutates vertex positions each frame to produce sine-wave water ripple
-- `Sailboat.tsx` — reads keyboard/mouse input, moves the boat, repositions the camera, checks island proximity
-- `Island.tsx` (inside `GrassTuft`) — sways grass with sine/cosine oscillation
-
-**Geometry primitives used:** `boxGeometry`, `cylinderGeometry`, `planeGeometry`, `sphereGeometry` — all Three.js built-ins, no external 3D model files.
+**Geometry:** `boxGeometry`, `cylinderGeometry`, `planeGeometry`, `sphereGeometry` — no external model files.
 
 ---
 
 ## Code Conventions
 
-- Named exports only — no default exports (except page.tsx files, which Next.js requires as default)
+- Named exports only — no default exports (except `page.tsx`, required by Next.js)
 - `"use client"` only on leaf components that need browser APIs or R3F hooks
 - Server components by default
-- Co-locate code where it's used
 - One component or hook per file
-- Function declarations for components, not arrow function assignments
+- Function declarations for components, not arrow functions
 - Semantic `key` props in `.map()` — never index-based
-- Files: kebab-case
-- Components: PascalCase
-- Functions: camelCase
-- Constants: UPPER_SNAKE_CASE
-- Hooks: useX
-
----
-
-## Accessibility
-
-- Semantic HTML throughout (`<section>`, `<nav>`, `<ul>`, `<li>`, etc.)
-- `lang="en"` on `<html>`
-- All `target="_blank"` links must have `rel="noopener noreferrer"`
-
----
-
-## Performance
-
-- Always use `next/image` with explicit `width` and `height` props
-- For `fill` images, always provide a `sizes` prop
-
----
-
-## Responsive
-
-- Mobile-first; use a single breakpoint (`md` / 768px)
-- Avoid `sm`, `lg`, `xl` breakpoints
-
----
-
-## Scope
-
-- Default to localized changes; don't refactor unrelated code
-- Ask before making systemic changes that affect shared patterns
-
----
-
-## Visual Design — Monument Valley Aesthetic
-
-The source of truth for all visual decisions is `style.md`. Key principles:
-
-**Geometry first.** Use cubes, boxes, cylinders, platforms, towers. Avoid organic shapes (no cones for trees, no blobs, no decorative flourishes).
-
-**Extreme visual reduction.** Every element must justify its existence. Flat surfaces, clean edges. Remove texture noise, realistic materials, excessive shadows, decorative effects.
-
-**One focal point per screen.** One primary object, one primary action, minimal visual competition.
-
-**Restrained colour system.** 1–2 dominant colours + 1 supporting + 1 accent. Muted, soft, harmonious.
-
-**Deliberate motion.** Slow, smooth, predictable. No bouncy effects, no attention-seeking animations. Transition durations: 300–600ms.
-
-**Typography.** Large confident headings. Generous spacing. Micro-labels in `font-mono tracking-[0.6–0.8em] uppercase text-[7–10px]`. Text should feel carved in, not layered on.
-
-**Whitespace is a material.** Large margins, few elements per screen, strong alignment.
-
----
-
-## Colour Palette
-
-| Role | Value |
-|---|---|
-| Deep navy (primary text / fill) | `#002147` |
-| Yale blue (secondary) | `#00356b` |
-| Page background | `#e8eff7` |
-| White (cards, polaroids, modal) | `#ffffff` |
-| Ocean | `#7dd4e8` |
-| Island sand base | `#ddc888` / `#f0e0a8` |
-| Monument stone | `#f0eadc` / `#e0d8c4` / `#c8bea8` |
-
-Avoid: high saturation, large numbers of colours, dark heavy backgrounds on content pages.
+- Files: kebab-case. Components: PascalCase. Functions: camelCase. Constants: UPPER_SNAKE_CASE.
 
 ---
 
@@ -136,86 +63,79 @@ Avoid: high saturation, large numbers of colours, dark heavy backgrounds on cont
 | Route | Purpose | Unlock condition |
 |---|---|---|
 | `/happy-fathers-day` | Entry point — 3D ocean scene | Always accessible |
-| `/ferry-dock` | Photo gallery | Unlocked from start |
-| `/old-baldy` | Photo gallery | Unlocked from start |
-| `/old-boat-house` | Photo gallery | Unlocked from start |
-| `/shoals-club` | Photo gallery | Requires ferry-dock + old-baldy + old-boat-house visited |
-| `/commons-tower` | Final gallery (fade-in) | Requires shoals-club visited |
-| `/` | Secret map — graph of all nodes | Unlocked after visiting shoals-club |
+| `/ferry-dock` | Photo gallery | Always unlocked |
+| `/old-baldy` | Photo gallery | Always unlocked |
+| `/old-boat-house` | Photo gallery | Always unlocked |
+| `/marsh-island` | Photo gallery | Always unlocked |
+| `/shoals-club` | Photo gallery | Always unlocked |
+| `/commons-tower` | Final gallery (fade-in) | Always unlocked |
+| `/` | Secret map — graph of all nodes | Unlocked after visiting all islands |
 
 ---
 
-## Island Naming Convention
+## Island Names (display title → route → 3D object)
 
-Islands are named after real Bald Head Island, NC landmarks (from the official guide map):
+| Display title | Route | 3D monument |
+|---|---|---|
+| Ferry Dock | `/ferry-dock` | Wood pier + two-deck ferry boat |
+| Old Baldy | `/old-baldy` | Tapered lighthouse with lantern room |
+| Aunty Karon's House | `/old-boat-house` | Purple raised beach house on stilts |
+| Marsh | `/marsh-island` | Two marsh banks, stream, reeds, cattails, crane |
+| SHOAL | `/shoals-club` | Sandy dune with animated grass tufts |
+| Bald Head Island Club | `/commons-tower` | Golf cart, gold mound, flag — no label shown in 3D |
 
-- **Ferry Dock** — where every visit begins
-- **Old Baldy** — NC's oldest lighthouse (Est. 1817) — rendered as a lighthouse in 3D
-- **Old Boat House** — Est. 1903 — rendered as a tall narrow tower with crane arm
-- **Shoals Club** — rendered as two columns joined by a lintel
-- **Commons Tower** — the final landmark — rendered as a tall slender tower with stepped base
-
-Do not add new islands without confirming the name comes from the real BHI map.
+**Renaming:** update `title` in `lib/graph.ts` first, then update the matching `page.tsx` title prop. Internal IDs and routes (e.g. `old-boat-house`) do not need to change.
 
 ---
 
 ## Discovery System
 
-- State is stored in `localStorage` under key `"visited-nodes"`
-- Map unlock is stored under `"found-map"`
-- `lib/discovery.ts` is the single source of truth — do not read/write localStorage directly elsewhere
-- `lib/graph.ts` defines node IDs, routes, unlock chains, and world positions
+- Visited state: `localStorage` key `"visited-nodes"` (managed by `lib/discovery.ts`)
+- Map unlock: `localStorage` key `"found-map"` — set when all `MAP_UNLOCK_REQUIRES` nodes visited
+- `lib/graph.ts` is the single source of truth for node IDs, titles, routes, and world positions
 
 ### Graph Topology
 
 ```
-happy-fathers-day  (entry page — not a sailboat island)
-├── ferry-dock       ─┐
-├── old-baldy         ├─ all three must be visited → unlocks shoals-club
-└── old-boat-house   ─┘
-                           ↓
-                      shoals-club   (requires all 3 above)
-                           ↓
-                      commons-tower (requires shoals-club)
+happy-fathers-day  (entry page — not a 3D island)
+├── ferry-dock
+├── old-baldy
+├── old-boat-house
+└── marsh-island
+         ↓
+      shoals-club
+         ↓
+    commons-tower
 ```
 
-`happy-fathers-day` is the `/happy-fathers-day` page — it exists in the graph to own the initial `unlocks` list but is filtered out of `ISLAND_NODES` and never rendered in the 3D scene.
-
-`shoals-club` is a convergence node — it has a `requires` list of all three preceding islands. `commons-tower` is the terminal node (`unlocks: []`).
-
-The secret map at `/` unlocks once `ferry-dock`, `old-baldy`, `old-boat-house`, and `shoals-club` have all been visited (defined by `MAP_UNLOCK_REQUIRES` in `graph.ts`).
+All islands are currently always unlocked (`requires: []` or undefined).
 
 ---
 
 ## Photos
 
-- All photos live in `public/photos/`
-- Exactly **4 photos per island**, no repeats across islands
-- Current distribution (do not change without instruction):
+All photos live in `public/photos/`. Current distribution:
 
 | Island | Photos |
 |---|---|
 | Ferry Dock | DSC_0285.jpeg, IMG_0086.JPG, IMG_0542.jpeg, IMG_0770.JPG |
 | Old Baldy | IMG_1244.jpeg, IMG_1472.jpeg, IMG_1610.JPG, IMG_1742.JPG |
-| Old Boat House | IMG_2515.jpeg, IMG_5051.JPG, IMG_5191.JPG, IMG_6531.jpeg |
-| Shoals Club | IMG_6970.JPG, IMG_7173.JPG, IMG_8268.JPG, IMG_8269.JPG |
-| Commons Tower | IMG_9510.jpeg, IMG_9593.jpeg, Picture 055.JPG, Resized_1000000069.jpg |
+| Aunty Karon's House | IMG_5051.JPG, IMG_5191.JPG, IMG_8270.JPG |
+| Marsh | (marsh-island page) |
+| SHOAL | IMG_6970.JPG, IMG_7173.JPG, IMG_8268.JPG |
+| Bald Head Island Club | IMG_9510.jpeg, IMG_9593.jpeg, Picture 055.JPG |
 
 ---
 
-## 3D Scene Rules
+## 3D Scene
 
-**Lighting:** High ambient (`intensity={2.0}`), moderate directional (`intensity={1.2}`). Keep lighting flat and even — avoid dramatic shadows (not photorealistic).
+**Lighting:** High ambient (`intensity={2.0}`), moderate directional (`intensity={1.2}`).
 
-**Sky:** Low turbidity (`turbidity={2}`), high rayleigh (`rayleigh={2}`) for a bright clear day.
+**Ocean:** Custom GLSL vertex+fragment shader in `Ocean.tsx`. Alpha `0.72` (semi-transparent so fish beneath are visible). Wave height drives foam bands.
 
-**Ocean:** Flat roughness=1, no metalness, pastel blue `#7dd4e8`, gentle sine-wave vertex animation.
+**Islands:** Sandy cylinder base (top radius 4.5, bottom 5.5). Each island has a unique hand-built monument and animated `GrassTuft` plants. All islands except Bald Head Island Club display a floating name label above them.
 
-**Islands:** Geometric stone monuments only. No organic shapes. Each island has a unique architectural silhouette (see Island Naming Convention above). Colours: warm sand base, muted stone monuments.
-
-**No text labels** on 3D objects. Navigation is discovered through exploration.
-
-**Discovery prompt:** A silent white pulsing dot (`animate-pulse`) appears near the island when the boat is within detection radius and the island is unlocked. No text, no labelling.
+**Fish:** Animated fish swim below the ocean surface (y = −1 to −4) at various depths and speeds. Rendered in `FishSchool.tsx`, used in both the sailing scene (`SailboatScene.tsx`) and gallery background (`GalleryOceanBackground.tsx`).
 
 ---
 
@@ -228,35 +148,26 @@ The secret map at `/` unlocks once `ferry-dock`, `old-baldy`, `old-boat-house`, 
 | A / ← | Turn left |
 | D / → | Turn right |
 | Space | Enter nearest unlocked island |
-| Mouse move | Tilt camera (up = look toward horizon, down = look at water) |
-| Click island / white dot | Enter island |
+| Mouse move | Tilt camera |
+| Click island or white dot | Enter island |
+| ⌂ button (bottom-right) | Reset boat to start |
 
 ---
 
-## UI Components
+## Visual Design
 
-**Modal (intro card):**
-- Sharp rectangular card — `rounded-none` always
-- Thin `2px` `#002147` accent bar at top
-- Narrow width (~232px), generous vertical padding
-- Ghost/outline button that fills solid `#002147` on hover (500ms transition)
-- Backdrop: near-invisible `backdrop-blur-[2px]` — ocean stays visible behind
+**Geometry first.** Cubes, cylinders, platforms — no organic blobs or decorative flourishes.
 
-**PhotoPage:**
-- Background: `#e8eff7`
-- Polaroid style: `bg-white`, `padding: 12px 12px 52px 12px` (thick bottom border), slight random rotation, `hover:rotate-0 hover:scale-105`
-- Lightbox: clicking a polaroid opens full photo on `bg-black/90` overlay; click anywhere to close; no X button; Escape also closes
-- Island name as micro-label: `text-[10px] font-mono tracking-[0.6em] uppercase text-[#00356b]/50`
-- Nav: `←` and `○` only — no other chrome
+**Colour palette:**
+| Role | Value |
+|---|---|
+| Deep navy (primary) | `#002147` |
+| Yale blue (secondary) | `#00356b` |
+| Page background | `#e8eff7` |
+| Island sand | `#ddc888` / `#f0e0a8` |
 
-**Map page (`/`):**
-- SVG graph with square nodes (not circles)
-- Thin `0.75px` lines between nodes
-- Visited nodes: filled `#002147` square, label at `60%` opacity
-- Unvisited nodes: empty stroke at `20%` opacity, label at `18%` opacity
-- No node list below the graph — the SVG is the entire UI
-- Clicking a visited square navigates to that route
+**Typography:** Micro-labels `font-mono tracking-[0.6–0.8em] uppercase text-[7–10px]`. Generous whitespace.
 
-**Help button:**
-- Small white circle in bottom-right of ocean scene, visible after intro closes
-- Shows mono tooltip with three lines: `W A S D — sail`, `Space — enter island`, `Sail close to discover`
+**PhotoPage:** Polaroid-style cards with slight rotation. Clicking opens a full-screen lightbox (click anywhere or press Escape to close). Ocean background behind the gallery uses `GalleryOceanBackground.tsx`.
+
+**Map page (`/`):** SVG graph, square nodes, thin edges. Clicking a node navigates to that route.
