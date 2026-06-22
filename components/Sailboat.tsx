@@ -16,6 +16,31 @@ const DETECTION_RADIUS = 7;
 const BOAT_WATER_CLEARANCE = 0.58;
 const TRUE_WIND = new THREE.Vector3(-0.4, 0, -1).normalize().multiplyScalar(9);
 
+function animateClothPlane(
+  geometry: THREE.BufferGeometry,
+  t: number,
+  amplitude: number,
+  side: number,
+  phase: number
+) {
+  const position = geometry.attributes.position;
+  if (!position) return;
+  const positions = position.array as Float32Array;
+  const direction = side === 0 ? 1 : Math.sign(side);
+
+  for (let i = 0; i < positions.length; i += 3) {
+    const x = positions[i];
+    const y = positions[i + 1];
+    const freeEdge = THREE.MathUtils.smoothstep(x, -0.9, 0.9);
+    const verticalRipple = Math.sin(y * 2.2 + t * 4.2 + phase) * 0.35;
+    const horizontalRipple = Math.sin(x * 4.4 - t * 5.1 + phase) * 0.65;
+    positions[i + 2] = (verticalRipple + horizontalRipple) * amplitude * freeEdge * direction;
+  }
+
+  position.needsUpdate = true;
+  geometry.computeVertexNormals();
+}
+
 function getOceanHeight(x: number, z: number, t: number) {
   const longWave = Math.sin(x * 0.13 + t * 0.42) * 0.34;
   const crossWave = Math.cos((x + z) * 0.18 - t * 0.36) * 0.22;
@@ -27,6 +52,7 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
   const groupRef = useRef<THREE.Group>(null);
   const mainSailRef = useRef<THREE.Mesh>(null);
   const jibSailRef = useRef<THREE.Mesh>(null);
+  const boatFlagRef = useRef<THREE.Mesh>(null);
   const elapsedRef = useRef(0);
   const { camera } = useThree();
   const keys = useRef<Set<string>>(new Set());
@@ -85,6 +111,7 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
     const aftWindEase = THREE.MathUtils.smoothstep(localWind.z, -5, 8);
     const mainTarget = sailSide * THREE.MathUtils.lerp(0.24, 0.68, aftWindEase);
     const jibTarget = sailSide * THREE.MathUtils.lerp(0.32, 0.78, aftWindEase);
+    const windStrength = THREE.MathUtils.clamp(apparentWind.length() / 18, 0.22, 1);
 
     if (mainSailRef.current) {
       mainSailRef.current.rotation.y = THREE.MathUtils.lerp(
@@ -92,6 +119,7 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
         mainTarget,
         0.08
       );
+      animateClothPlane(mainSailRef.current.geometry, t, 0.18 * windStrength, sailSide, 0.1);
     }
     if (jibSailRef.current) {
       jibSailRef.current.rotation.y = THREE.MathUtils.lerp(
@@ -99,6 +127,16 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
         jibTarget,
         0.1
       );
+      animateClothPlane(jibSailRef.current.geometry, t, 0.14 * windStrength, sailSide, 1.2);
+    }
+    if (boatFlagRef.current) {
+      boatFlagRef.current.rotation.y = THREE.MathUtils.lerp(
+        boatFlagRef.current.rotation.y,
+        sailSide * 0.75,
+        0.12
+      );
+      boatFlagRef.current.rotation.z = Math.sin(t * 3.4) * 0.08;
+      animateClothPlane(boatFlagRef.current.geometry, t, 0.075 * windStrength, sailSide, 2.1);
     }
 
     if (k.has("a") || k.has("arrowleft")) {
@@ -143,7 +181,7 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, 5]}>
+    <group ref={groupRef} position={[0, BOAT_WATER_CLEARANCE, 0]}>
       {/* Hull */}
       <mesh>
         <boxGeometry args={[1.6, 0.5, 4]} />
@@ -171,17 +209,17 @@ export function Sailboat({ onNearIsland, islandPositions }: SailboatProps) {
       </mesh>
       {/* Main sail */}
       <mesh ref={mainSailRef} position={[-0.6, 2.5, -0.3]} rotation={[0, 0.15, 0]}>
-        <planeGeometry args={[1.8, 4]} />
+        <planeGeometry args={[1.8, 4, 8, 12]} />
         <meshStandardMaterial color="#f8f4ee" side={THREE.DoubleSide} roughness={0.8} />
       </mesh>
       {/* Jib sail */}
       <mesh ref={jibSailRef} position={[0.1, 1.8, -1.4]} rotation={[0, -0.3, 0]}>
-        <planeGeometry args={[1.2, 2.5]} />
+        <planeGeometry args={[1.2, 2.5, 6, 10]} />
         <meshStandardMaterial color="#f8f4ee" side={THREE.DoubleSide} roughness={0.8} />
       </mesh>
       {/* Flag */}
-      <mesh position={[0, 5.5, -0.3]} rotation={[0, 0.2, 0]}>
-        <planeGeometry args={[0.5, 0.3]} />
+      <mesh ref={boatFlagRef} position={[0, 5.5, -0.3]} rotation={[0, 0.2, 0]}>
+        <planeGeometry args={[0.5, 0.3, 6, 3]} />
         <meshStandardMaterial color="#dc2626" side={THREE.DoubleSide} />
       </mesh>
     </group>

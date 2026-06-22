@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { GalleryOceanBackground } from "./GalleryOceanBackground";
 
 interface PhotoPageProps {
   title: string;
@@ -39,8 +40,10 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
   }, [lightbox]);
 
   return (
-    <main className="min-h-screen bg-[#e8eff7] flex flex-col">
-      <nav className="flex items-center justify-between px-5 md:px-8 pt-6 md:pt-8">
+    <main className="relative min-h-screen overflow-hidden flex flex-col">
+      <GalleryOceanBackground />
+
+      <nav className="relative z-10 flex items-center justify-between px-5 md:px-8 pt-6 md:pt-8">
         <Link
           href="/happy-fathers-day"
           className="text-[#00356b]/40 hover:text-[#00356b] text-xs font-mono tracking-widest transition-colors"
@@ -56,7 +59,7 @@ export function PhotoPage({ title, photos, fadeIn = false }: PhotoPageProps) {
       </nav>
 
       <div
-        className={`flex-1 flex flex-col items-center justify-center px-4 md:px-10 py-10 md:py-12 transition-all duration-1000 ${
+        className={`relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-10 py-10 md:py-12 transition-all duration-1000 ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >

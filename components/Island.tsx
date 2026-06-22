@@ -45,6 +45,41 @@ export function GrassTuft({ position, phase = 0 }: { position: [number, number, 
   );
 }
 
+function FlappingFlag({ position }: { position: [number, number, number] }) {
+  const ref = useRef<THREE.Mesh>(null);
+  const elapsedRef = useRef(0);
+
+  useFrame((_, delta) => {
+    const flag = ref.current;
+    if (!flag) return;
+    elapsedRef.current += delta;
+    const t = elapsedRef.current;
+    flag.rotation.y = Math.sin(t * 0.9) * 0.18;
+    flag.rotation.z = Math.sin(t * 1.6) * 0.04;
+
+    const positionAttribute = flag.geometry.attributes.position;
+    if (!positionAttribute) return;
+    const positions = positionAttribute.array as Float32Array;
+    for (let i = 0; i < positions.length; i += 3) {
+      const x = positions[i];
+      const y = positions[i + 1];
+      const freeEdge = THREE.MathUtils.smoothstep(x, -0.24, 0.24);
+      positions[i + 2] =
+        (Math.sin(x * 12 + t * 5.2) * 0.035 + Math.sin(y * 10 - t * 4.3) * 0.018) *
+        freeEdge;
+    }
+    positionAttribute.needsUpdate = true;
+    flag.geometry.computeVertexNormals();
+  });
+
+  return (
+    <mesh ref={ref} position={position}>
+      <planeGeometry args={[0.48, 0.26, 6, 3]} />
+      <meshStandardMaterial color="#c0392b" roughness={1} side={THREE.DoubleSide} />
+    </mesh>
+  );
+}
+
 function OldBaldyMonument() {
   const stoneMap = useMemo(() => {
     const canvas = document.createElement("canvas");
@@ -457,10 +492,7 @@ function Monument({ id }: { id: string }) {
           <cylinderGeometry args={[0.025, 0.025, 1.25, 6]} />
           <meshStandardMaterial color="#f4f0dc" roughness={1} />
         </mesh>
-        <mesh position={[2.05, 3.18, -1.4]}>
-          <boxGeometry args={[0.48, 0.26, 0.04]} />
-          <meshStandardMaterial color="#c0392b" roughness={1} />
-        </mesh>
+        <FlappingFlag position={[2.05, 3.18, -1.4]} />
       </>
     );
   }
