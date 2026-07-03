@@ -1,6 +1,6 @@
 # jeanch.ai
 
-A Father's Day gift for Captain Chai — an interactive sailing world built with **Next.js 15 App Router** and **React Three Fiber**. Sail a boat around Bald Head Island to discover photo galleries at each landmark.
+A Father's Day gift for Captain Chai — an interactive sailing world built with **Next.js 15 App Router**, **Three.js**, and **React Three Fiber**. Sail a boat around Bald Head Island to discover photo galleries at each landmark.
 
 **Tech highlights:**
 - **GLSL ocean shader** — custom vertex/fragment shader with multi-frequency wave geometry, foam bands, and 0.72 alpha transparency; wave math is mirrored in JS so the boat rides the surface correctly
