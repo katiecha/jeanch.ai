@@ -2,6 +2,8 @@
 
 A Father's Day gift for Captain Chai — an interactive sailing world built with **Next.js 15 App Router**, **Three.js**, and **React Three Fiber**. Sail a boat around Bald Head Island to discover photo galleries at each landmark.
 
+Inspired by [Monument Valley](https://www.monumentvalleygame.com/mv3).
+
 **Tech highlights:**
 - **GLSL ocean shader** — custom vertex/fragment shader with multi-frequency wave geometry, foam bands, and 0.72 alpha transparency; wave math is mirrored in JS so the boat rides the surface correctly
 - **Apparent-wind sail simulation** — sails rotate and ripple based on the vector difference between true wind and boat velocity, with `BufferGeometry` vertex mutation per frame for cloth billowing
