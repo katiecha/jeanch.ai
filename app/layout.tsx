@@ -7,7 +7,21 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "jeanch.ai",
-  description: "A Father's Day adventure.",
+  description: "An interactive sailing adventure around Bald Head Island — a Father's Day gift built with Three.js and React Three Fiber.",
+  keywords: ["Bald Head Island", "sailing", "interactive", "3D", "Father's Day", "Three.js"],
+  openGraph: {
+    title: "jeanch.ai",
+    description: "An interactive sailing adventure around Bald Head Island — a Father's Day gift built with Three.js and React Three Fiber.",
+    url: "https://jeanch.ai",
+    siteName: "jeanch.ai",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "jeanch.ai",
+    description: "An interactive sailing adventure around Bald Head Island — a Father's Day gift built with Three.js and React Three Fiber.",
+  },
+  metadataBase: new URL("https://jeanch.ai"),
   icons: {
     icon: "/icon",
   },
