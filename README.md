@@ -1,5 +1,7 @@
 # jeanch.ai
 
+**[jeanch.ai](https://jeanch.ai)**
+
 A Father's Day gift for Captain Chai — an interactive sailing world built with **Next.js 15 App Router**, **Three.js**, and **React Three Fiber**. Sail a boat around Bald Head Island to discover photo galleries at each landmark.
 
 Inspired by [Monument Valley](https://www.monumentvalleygame.com/mv3).
